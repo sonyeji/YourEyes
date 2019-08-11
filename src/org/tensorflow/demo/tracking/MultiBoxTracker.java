@@ -118,7 +118,7 @@ public class MultiBoxTracker {
       @Override
       public void onInit(int status) {
         if(status != ERROR) {
-          int language = tts.setLanguage(Locale.ENGLISH);
+          int language = tts.setLanguage(Locale.KOREAN);
           if (language == TextToSpeech.LANG_MISSING_DATA
 
                   || language == TextToSpeech.LANG_NOT_SUPPORTED) {

@@ -54,34 +54,11 @@ import android.util.Log;
 public class DetectorActivity extends CameraActivity implements OnImageAvailableListener {
   private static final Logger LOGGER = new Logger();
 
-  // Configuration values for the prepackaged multibox model.
-  private static final int MB_INPUT_SIZE = 224;
-  private static final int MB_IMAGE_MEAN = 128;
-  private static final float MB_IMAGE_STD = 128;
-  private static final String MB_INPUT_NAME = "ResizeBilinear";
-  private static final String MB_OUTPUT_LOCATIONS_NAME = "output_locations/Reshape";
-  private static final String MB_OUTPUT_SCORES_NAME = "output_scores/Reshape";
-  private static final String MB_MODEL_FILE = "file:///android_asset/multibox_model.pb";
-  private static final String MB_LOCATION_FILE =
-      "file:///android_asset/multibox_location_priors.txt";
-
   private static final int TF_OD_API_INPUT_SIZE = 300;
   private static final String TF_OD_API_MODEL_FILE =
       "file:///android_asset/ssd_mobilenet_v1_android_export.pb";
   //private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/coco_labels_list.txt";
   private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/coco_labels_list_ko.txt";
-
-  // Configuration values for tiny-yolo-voc. Note that the graph is not included with TensorFlow and
-  // must be manually placed in the assets/ directory by the user.
-  // Graphs and models downloaded from http://pjreddie.com/darknet/yolo/ may be converted e.g. via
-  // DarkFlow (https://github.com/thtrieu/darkflow). Sample command:
-  // ./flow --model cfg/tiny-yolo-voc.cfg --load bin/tiny-yolo-voc.weights --savepb --verbalise
-
-  private static final String YOLO_MODEL_FILE = "file:///android_asset/graph-tiny-yolo-voc.pb";
-  private static final int YOLO_INPUT_SIZE = 416;
-  private static final String YOLO_INPUT_NAME = "input";
-  private static final String YOLO_OUTPUT_NAMES = "output";
-  private static final int YOLO_BLOCK_SIZE = 32;
 
   // Which detection model to use: by default uses Tensorflow Object Detection API frozen
   // checkpoints.  Optionally use legacy Multibox (trained using an older version of the API)
@@ -136,29 +113,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
     int cropSize = TF_OD_API_INPUT_SIZE;
 
-    if (MODE == DetectorMode.YOLO) {
-      detector =
-          TensorFlowYoloDetector.create(
-              getAssets(),
-              YOLO_MODEL_FILE,
-              YOLO_INPUT_SIZE,
-              YOLO_INPUT_NAME,
-              YOLO_OUTPUT_NAMES,
-              YOLO_BLOCK_SIZE);
-      cropSize = YOLO_INPUT_SIZE;
-    } else if (MODE == DetectorMode.MULTIBOX) {
-      detector =
-          TensorFlowMultiBoxDetector.create(
-              getAssets(),
-              MB_MODEL_FILE,
-              MB_LOCATION_FILE,
-              MB_IMAGE_MEAN,
-              MB_IMAGE_STD,
-              MB_INPUT_NAME,
-              MB_OUTPUT_LOCATIONS_NAME,
-              MB_OUTPUT_SCORES_NAME);
-      cropSize = MB_INPUT_SIZE;
-    } else {
       try {
         detector = TensorFlowObjectDetectionAPIModel.create(
             getAssets(), TF_OD_API_MODEL_FILE, TF_OD_API_LABELS_FILE, TF_OD_API_INPUT_SIZE);
@@ -171,7 +125,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
         toast.show();
         finish();
       }
-    }
 
     previewWidth = size.getWidth();
     previewHeight = size.getHeight();

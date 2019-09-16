@@ -8,10 +8,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 public class MenuActivity extends Activity {
-    Button detect_btn;
-    Button text_btn;
+    private Button detect_btn;
+    private Button text_btn;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.menu_activity);
 
         detect_btn = (Button)findViewById(R.id.detect_btn);
         text_btn = (Button)findViewById(R.id.text_btn);

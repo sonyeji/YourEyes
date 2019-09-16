@@ -15,4 +15,9 @@
 -->
 <resources>
     <style name="MaterialTheme" parent="android:Theme.Material.Light.NoActionBar.Fullscreen" />
+    <style name="StartTheme" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@drawable/startimage</item>
+        <item name="android:windowActionBar">false</item>
+    </style>
+
 </resources>

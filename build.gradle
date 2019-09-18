@@ -196,4 +196,5 @@ dependencies {
         implementation 'org.tensorflow:tensorflow-android:+'
     }
     implementation 'com.rmtheis:tess-two:9.0.0'
+    implementation 'com.android.support:appcompat-v7:23.0.0'
 }

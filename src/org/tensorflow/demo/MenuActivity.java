@@ -26,7 +26,7 @@ public class MenuActivity extends Activity {
         text_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(getBaseContext(), TextDetectActivity.class));
             }
         });
 

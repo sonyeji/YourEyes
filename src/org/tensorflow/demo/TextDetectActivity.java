@@ -17,6 +17,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
@@ -36,6 +37,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+
+import static android.speech.tts.TextToSpeech.ERROR;
+import static android.speech.tts.TextToSpeech.QUEUE_ADD;
 
 public class TextDetectActivity extends Activity implements View.OnClickListener{
     private boolean CameraOnOffFlag = true;
@@ -56,6 +61,7 @@ public class TextDetectActivity extends Activity implements View.OnClickListener
     private String mCurrentPhotoPath; // 사진 경로
     private final String[] mLanguageList = {"eng","kor"}; // 언어
     private boolean ProgressFlag = false;
+    private TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +90,32 @@ public class TextDetectActivity extends Activity implements View.OnClickListener
             /*image = BitmapFactory.decodeResource(getResources(), R.drawable.sampledata); //샘플이미지파일
             Test();*/
         }
+
+        tts = new TextToSpeech(mContext, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != ERROR) {
+                    int language = tts.setLanguage(Locale.KOREAN);
+                    if (language == TextToSpeech.LANG_MISSING_DATA
+
+                            || language == TextToSpeech.LANG_NOT_SUPPORTED) {
+
+                        // 언어 데이터가 없거나, 지원하지 않는경우
+
+                        Toast.makeText(mContext, "지원하지 않는 언어입니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        //tts.speak("Hello", TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                }else {
+
+                    // 작업 실패
+
+                    Toast.makeText(mContext, "TTS 작업에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
     }
 
     public void PermissionCheck() {
@@ -285,6 +317,12 @@ public class TextDetectActivity extends Activity implements View.OnClickListener
                 case ConstantDefine.RESULT_OCR:
                     TextView OCRTextView = (TextView)findViewById(R.id.tv_view);
                     OCRTextView.setText(String.valueOf(msg.obj)); //텍스트 변경
+
+                    String message = String.valueOf(msg.obj);
+                    if(tts.isSpeaking() == false) {
+                        tts.speak(message, TextToSpeech.QUEUE_FLUSH, null);
+                        tts.playSilence(3000, QUEUE_ADD ,null);
+                    }
 
                     // 원형 프로그레스바 종료
                     if(m_objProgressCircle.isShowing() && m_objProgressCircle !=null)

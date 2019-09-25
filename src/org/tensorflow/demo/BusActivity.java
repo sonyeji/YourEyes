@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,7 +62,7 @@ public class BusActivity extends Activity {
                 //상태바 없애기(FullScreen)
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.bus_activity);
 
         //xml 아이디 얻어오기
         getXmlId();
@@ -335,9 +336,9 @@ public class BusActivity extends Activity {
 
     // UI ID 얻는 함수
     public void getXmlId() {
-        xmlBusNum = findViewById(R.id.busNum);
-        xmlStationArsno = findViewById(R.id.stationArsno);
-        xmlShowInfo = findViewById(R.id.showInfo);
+        xmlBusNum = (EditText) findViewById(R.id.busNum);
+        xmlStationArsno = (EditText) findViewById(R.id.stationArsno);
+        xmlShowInfo = (TextView) findViewById(R.id.showInfo);
     }
     
     

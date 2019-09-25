@@ -319,10 +319,7 @@ public class TextDetectActivity extends Activity implements View.OnClickListener
                     OCRTextView.setText(String.valueOf(msg.obj)); //텍스트 변경
 
                     String message = String.valueOf(msg.obj);
-                    if(tts.isSpeaking() == false) {
-                        tts.speak(message, TextToSpeech.QUEUE_FLUSH, null);
-                        tts.playSilence(3000, QUEUE_ADD ,null);
-                    }
+                    tts.speak(message, TextToSpeech.QUEUE_FLUSH, null);
 
                     // 원형 프로그레스바 종료
                     if(m_objProgressCircle.isShowing() && m_objProgressCircle !=null)

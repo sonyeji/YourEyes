@@ -56,8 +56,11 @@
         </activity>
         <activity android:name=".TextDetectActivity"
             android:screenOrientation="portrait">
-
         </activity>
+        <activity android:name=".BusActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="org.tensorflow.demo.fileprovider"

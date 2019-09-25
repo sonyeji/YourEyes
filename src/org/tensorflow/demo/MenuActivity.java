@@ -34,7 +34,8 @@ public class MenuActivity extends Activity {
         bus_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getBaseContext(), BusActivity.class));
+               // startActivity(new Intent(getBaseContext(), BusActivity.class));
+                startActivity(new Intent(getBaseContext(), SttTest.class));
             }
         });
     }

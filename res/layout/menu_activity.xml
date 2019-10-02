@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,31 +9,32 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
+        <ImageButton
             android:id="@+id/detect_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="#74C1E4EC"
-            android:text="물체인식"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
+            android:padding="0sp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/object_btn"
+            />
 
-        <Button
+        <ImageButton
             android:id="@+id/text_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="#28E9BDE2"
-            android:text="문자인식"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
+            android:padding="0sp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/word_btn" />
 
-        <Button
+        <ImageButton
             android:id="@+id/bus_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="#28EBE9BA"
-            android:text="버스안내"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
+            android:padding="0sp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bus_btn" />
     </LinearLayout>
 </LinearLayout>

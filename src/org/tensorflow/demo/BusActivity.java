@@ -1,8 +1,16 @@
 package org.tensorflow.demo;
 
+import android.Manifest;
 import android.app.Activity;
 //import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,6 +25,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,9 +65,32 @@ public class BusActivity extends Activity {
     
     
     private Button detectbus_btn;
+
+    private Button voicesearch_btn;
+    private SpeechRecognizer mRecognizer;
+    private Intent i;
+    private final int MY_PERMISSIONS_RECORD_AUDIO = 1;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        detectbus_btn = (Button)findViewById(R.id.detectbus);
+        setContentView(R.layout.bus_activity);
+        detectbus_btn = (Button)findViewById(R.id.detect_bus);
+        voicesearch_btn = (Button)findViewById(R.id.voice_search);
+
+        i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        i.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getBaseContext().getPackageName());
+        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
+        mRecognizer = SpeechRecognizer.createSpeechRecognizer(getBaseContext());
+        mRecognizer.setRecognitionListener(listener);
+
+
+        voicesearch_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(getBaseContext(), SttTest.class));
+            }
+        });
+
                 //상태바 없애기(FullScreen)
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -340,6 +372,58 @@ public class BusActivity extends Activity {
         xmlStationArsno = (EditText) findViewById(R.id.stationArsno);
         xmlShowInfo = (TextView) findViewById(R.id.showInfo);
     }
+
+    private RecognitionListener listener = new RecognitionListener() {
+        @Override
+        public void onReadyForSpeech(Bundle params) {
+            System.out.println("onReadyForSpeech.........................");
+        }
+        @Override
+        public void onBeginningOfSpeech() {
+            Toast.makeText(getBaseContext(), "음성을 입력받고 있습니다!", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onRmsChanged(float rmsdB) {
+            System.out.println("onRmsChanged.........................");
+        }
+
+        @Override
+        public void onBufferReceived(byte[] buffer) {
+            System.out.println("onBufferReceived.........................");
+        }
+
+        @Override
+        public void onEndOfSpeech() {
+            System.out.println("onEndOfSpeech.........................");
+        }
+
+        @Override
+        public void onError(int error) {
+            Toast.makeText(getBaseContext(), "천천히 다시 말해주세요.", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onPartialResults(Bundle partialResults) {
+            System.out.println("onPartialResults.........................");
+        }
+
+        @Override
+        public void onEvent(int eventType, Bundle params) {
+            System.out.println("onEvent.........................");
+        }
+
+        @Override
+        public void onResults(Bundle results) {
+            String key= "";
+            key = SpeechRecognizer.RESULTS_RECOGNITION;
+            ArrayList<String> mResult = results.getStringArrayList(key);
+            String[] rs = new String[mResult.size()];
+            mResult.toArray(rs);
+            Toast.makeText(getBaseContext(), rs[0], Toast.LENGTH_SHORT).show();
+            //  mRecognizer.startListening(i); //음성인식이 계속 되는 구문이니 필요에 맞게 쓰시길 바람
+        }
+    };
     
     
 }

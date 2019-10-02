@@ -25,6 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/scrollView"
                 android:gravity="center"
+                android:layout_marginLeft="20px"
                 android:text="처리시간" />
 
             <TextView
@@ -32,6 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/scrollView"
+                android:layout_marginLeft="20px"
                 android:gravity="center"
                 android:text="인식할 문자를 찍어주세요." />
 
@@ -44,15 +46,17 @@
     </ScrollView>
 
 
-
     <Button
         android:id="@+id/btn_OCR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
+        android:background="#D1D1D1"
         android:gravity="center"
-        android:text="사진찍기" />
+        android:text="사진찍기"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
 </RelativeLayout>

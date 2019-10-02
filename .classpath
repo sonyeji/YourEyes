@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="gradleBuild/generated/not_namespaced_r_class_sources/debug/processDebugResources/r"/>
+	<classpathentry kind="src" path="gradleBuild/generated/source/buildConfig/androidTest/debug"/>
+	<classpathentry kind="src" path="gradleBuild/generated/source/buildConfig/debug"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/incremental-runtime-classes/debug/instant-run.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/instant_run_app_info_output_file/debug/generateDebugInstantRunAppInfo/instant-run-bootstrap.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/0.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/1.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/16.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/17.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/18.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/19.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/2.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/20.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/21.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/22.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/23.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/24.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/25.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/27.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/3.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/4.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/dexBuilder/debug/5.jar"/>
+	<classpathentry kind="lib" path="gradleBuild/intermediates/transforms/mergeJavaRes/debug/0.jar"/>
+	<classpathentry kind="output" path="gradleBuild/intermediates/incremental-verifier/debug"/>
+</classpath>

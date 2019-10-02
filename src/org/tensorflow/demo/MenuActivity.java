@@ -4,20 +4,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
+//import android.view.WindowManager;
+//import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MenuActivity extends Activity {
-    private Button detect_btn;
-    private Button text_btn;
-    private Button bus_btn;
+    private ImageButton detect_btn;
+    private ImageButton text_btn;
+    private ImageButton bus_btn;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_activity);
 
-        detect_btn = (Button)findViewById(R.id.detect_btn);
-        text_btn = (Button)findViewById(R.id.text_btn);
-        bus_btn = (Button)findViewById(R.id.bus_btn);
+        detect_btn = (ImageButton)findViewById(R.id.detect_btn);
+        text_btn = (ImageButton)findViewById(R.id.text_btn);
+        bus_btn = (ImageButton)findViewById(R.id.bus_btn);
 
         detect_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,8 +35,8 @@ public class MenuActivity extends Activity {
         bus_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // startActivity(new Intent(getBaseContext(), BusActivity.class));
-                startActivity(new Intent(getBaseContext(), SttTest.class));
+                startActivity(new Intent(getBaseContext(), BusActivity.class));
+               // startActivity(new Intent(getBaseContext(), SttTest.class));
             }
         });
     }

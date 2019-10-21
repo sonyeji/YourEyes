@@ -1,4 +1,4 @@
-package org.tensorflow.demo;
+package org.YourEyes.demo;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.view.View;
 //import android.view.WindowManager;
 //import android.widget.Button;
 import android.widget.ImageButton;
+
+import org.YourEyes.demo.R;
 
 public class MenuActivity extends Activity {
     private ImageButton detect_btn;

@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-package org.tensorflow.demo.tracking;
+package org.YourEyes.demo.tracking;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -24,8 +24,6 @@ import android.graphics.Paint.Cap;
 import android.graphics.Paint.Join;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
-import android.os.AsyncTask;
-import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
 import android.util.Pair;
@@ -35,18 +33,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import org.tensorflow.demo.Classifier.Recognition;
-import org.tensorflow.demo.env.BorderedText;
-import org.tensorflow.demo.env.ImageUtils;
-import org.tensorflow.demo.env.Logger;
-import org.w3c.dom.Text;
+import org.YourEyes.demo.Classifier.Recognition;
+import org.YourEyes.demo.env.BorderedText;
+import org.YourEyes.demo.env.ImageUtils;
+import org.YourEyes.demo.env.Logger;
 
 import static android.speech.tts.TextToSpeech.ERROR;
 import static android.speech.tts.TextToSpeech.QUEUE_ADD;
-import static android.speech.tts.TextToSpeech.QUEUE_FLUSH;
 
 /**
  * A tracker wrapping ObjectTracker that also handles non-max suppression and matching existing

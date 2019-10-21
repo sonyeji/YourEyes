@@ -1,9 +1,11 @@
-package org.tensorflow.demo;
+package org.YourEyes.demo;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
+
+import org.YourEyes.demo.R;
 
 class ProgressCircleDialog extends Dialog {
     public static final boolean DEF_CANCELABLE = true ;

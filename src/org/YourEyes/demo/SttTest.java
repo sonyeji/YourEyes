@@ -1,4 +1,4 @@
-package org.tensorflow.demo;
+package org.YourEyes.demo;
 
 import android.Manifest;
 import android.app.Activity;
@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.YourEyes.demo.R;
 
 import java.util.ArrayList;
 

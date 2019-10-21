@@ -1,4 +1,4 @@
-package org.tensorflow.demo;
+package org.YourEyes.demo;
 
 public class ConstantDefine {
     public static final int ACT_TAKE_PIC = 1;

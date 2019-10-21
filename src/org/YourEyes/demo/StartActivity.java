@@ -1,4 +1,4 @@
-package org.tensorflow.demo;
+package org.YourEyes.demo;
 
 import android.app.Activity;
 import android.content.Intent;

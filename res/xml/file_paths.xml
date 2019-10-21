@@ -3,6 +3,6 @@
 
     <external-path
         name="my_images"
-        path="Android/data/org.tensorflow.demo/files/Pictures" />
+        path="Android/data/org.YourEyes.demo/files/Pictures" />
 
 </paths>

@@ -1,4 +1,4 @@
-package org.tensorflow.demo;
+package org.YourEyes.demo;
 
 /*
  * Copyright 2017 The TensorFlow Authors. All Rights Reserved.
@@ -32,9 +32,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import java.io.IOException;
 import java.util.List;
-import org.tensorflow.demo.env.ImageUtils;
-import org.tensorflow.demo.env.Logger;
-import org.tensorflow.demo.R; // Explicit import needed for internal Google builds.
+
+import org.YourEyes.demo.env.ImageUtils;
+import org.YourEyes.demo.env.Logger;
+import org.YourEyes.demo.R; // Explicit import needed for internal Google builds.
 
 public class LegacyCameraConnectionFragment extends Fragment {
   private Camera camera;

@@ -1,4 +1,4 @@
-package org.tensorflow.demo;
+package org.YourEyes.demo;
 
 import android.Manifest;
 import android.app.Activity;
@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -29,6 +28,8 @@ import android.widget.Toast;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 
+import org.YourEyes.demo.R;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -40,7 +41,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import static android.speech.tts.TextToSpeech.ERROR;
-import static android.speech.tts.TextToSpeech.QUEUE_ADD;
 
 public class TextDetectActivity extends Activity implements View.OnClickListener{
     private boolean CameraOnOffFlag = true;

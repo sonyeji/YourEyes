@@ -17,7 +17,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.tensorflow.demo">
+    package="org.YourEyes.demo">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" />
@@ -35,7 +35,7 @@
         android:theme="@style/MaterialTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="org.tensorflow.demo.DetectorActivity"
+        <activity android:name="org.YourEyes.demo.DetectorActivity"
                   android:screenOrientation="portrait"
                   android:label="Your Eyes">
            <!-- <intent-filter>
@@ -44,7 +44,7 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>-->
         </activity>
-        <activity android:name=".StartActivity"
+        <activity android:name="org.YourEyes.demo.StartActivity"
             android:theme="@style/StartTheme"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -53,22 +53,22 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuActivity"
+        <activity android:name="org.YourEyes.demo.MenuActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".TextDetectActivity"
+        <activity android:name="org.YourEyes.demo.TextDetectActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".BusActivity"
+        <activity android:name="org.YourEyes.demo.BusActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".SttTest"
+        <activity android:name="org.YourEyes.demo.SttTest"
             android:screenOrientation="portrait">
         </activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="org.tensorflow.demo.fileprovider"
+            android:authorities="org.YourEyes.demo.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true"
             tools:replace="android:authorities">

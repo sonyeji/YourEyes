@@ -170,7 +170,9 @@ public class BusActivity extends Activity {
                     break;
                 case "반경내 대중교통 POI 검색":
                     getLocation();
-                    odsayService.requestPointSearch("126.933361407195", "37.3643392278118", "250", "1:2", onResultCallbackListener);
+                    String s_lon = Double.toString(longitude);
+                    String s_lat = Double.toString(latitude);
+                    odsayService.requestPointSearch(s_lon, s_lat, "250", "1:2", onResultCallbackListener);
                     break;
                 case "지도 위 대중교통 POI 검색":
                     odsayService.requestBoundarySearch("127.045478316811:37.68882830829:127.055063420699:37.6370465749586", "127.045478316811:37.68882830829:127.055063420699:37.6370465749586", "1:2", onResultCallbackListener);

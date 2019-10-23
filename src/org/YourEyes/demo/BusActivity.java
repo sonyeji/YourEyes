@@ -134,27 +134,6 @@ public class BusActivity extends Activity {
                 case "버스정류장 세부정보 조회":
                     odsayService.requestBusStationInfo("107475", onResultCallbackListener);
                     break;
-                case "열차•KTX 운행정보 검색":
-                    odsayService.requestTrainServiceTime("3300128", "3300108", onResultCallbackListener);
-                    break;
-                case "고속버스 운행정보 검색":
-                    odsayService.requestExpressServiceTime("4000057", "4000030", onResultCallbackListener);
-                    break;
-                case "시외버스 운행정보 검색":
-                    odsayService.requestIntercityServiceTime("4000022", "4000255", onResultCallbackListener);
-                    break;
-                case "항공 운행정보 검색":
-                    odsayService.requestAirServiceTime("3500001", "3500003", "6", onResultCallbackListener);
-                    break;
-                case "운수회사별 버스노선 조회":
-                    odsayService.requestSearchByCompany("792", "100", onResultCallbackListener);
-                    break;
-                case "지하철역 세부 정보 조회":
-                    odsayService.requestSubwayStationInfo("130", onResultCallbackListener);
-                    break;
-                case "지하철역 전체 시간표 조회":
-                    odsayService.requestSubwayTimeTable("130", "1", onResultCallbackListener);
-                    break;
                 case "노선 그래픽 데이터 검색":
                     odsayService.requestLoadLane("0:0@12018:1:-1:-1", onResultCallbackListener);
                     break;
@@ -167,20 +146,8 @@ public class BusActivity extends Activity {
                 case "지도 위 대중교통 POI 검색":
                     odsayService.requestBoundarySearch("127.045478316811:37.68882830829:127.055063420699:37.6370465749586", "127.045478316811:37.68882830829:127.055063420699:37.6370465749586", "1:2", onResultCallbackListener);
                     break;
-                case "지하철 경로검색 조회(지하철 노선도)":
-                    odsayService.requestSubwayPath("1000", "201", "222", "1", onResultCallbackListener);
-                    break;
                 case "대중교통 길찾기":
                     odsayService.requestSearchPubTransPath("126.926493082645", "37.6134436427887", "127.126936754911", "37.5004198786564", "0", "0", "0", onResultCallbackListener);
-                    break;
-                case "지하철역 환승 정보 조회":
-                    odsayService.requestSubwayTransitInfo("133", onResultCallbackListener);
-                    break;
-                case "고속버스 터미널 조회":
-                    odsayService.requestExpressBusTerminals("1000", "서울", onResultCallbackListener);
-                    break;
-                case "시외버스 터미널 조회":
-                    odsayService.requestIntercityBusTerminals("1000", "서울", onResultCallbackListener);
                     break;
                 case "도시코드 조회":
                     odsayService.requestSearchCID("서울", onResultCallbackListener);

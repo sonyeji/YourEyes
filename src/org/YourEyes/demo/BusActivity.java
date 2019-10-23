@@ -1,14 +1,21 @@
 package org.YourEyes.demo;
 
+import android.Manifest;
 import android.app.Activity;
 //import android.support.v7.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.annotation.IdRes;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -54,12 +61,33 @@ public class BusActivity extends Activity {
     private JSONObject jsonObject;
     private Map mapObject;
 
+    private double longitude;
+    private double latitude;
+
+    private Location location;
+    private LocationManager lm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bus_activity);
 
         init();
+        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+       /* if (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(BusActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+            //권한을 허용하지 않는 경우
+        } else {
+            //권한을 허용한 경우
+            try {
+                location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+
+                Toast.makeText(this, longitude+" "+latitude, Toast.LENGTH_SHORT).show();
+            } catch(SecurityException e) {
+                e.printStackTrace();
+            }
+        }*/
     }
 
     private void init() {
@@ -141,6 +169,7 @@ public class BusActivity extends Activity {
                     odsayService.requestSearchStation("11", "1000", "1:2", "10", "1", "127.0363583:37.5113295", onResultCallbackListener);
                     break;
                 case "반경내 대중교통 POI 검색":
+                    getLocation();
                     odsayService.requestPointSearch("126.933361407195", "37.3643392278118", "250", "1:2", onResultCallbackListener);
                     break;
                 case "지도 위 대중교통 POI 검색":
@@ -155,4 +184,25 @@ public class BusActivity extends Activity {
             }
         }
     };
+
+    //현재 위치 찾으려는 시점에서 호출하면 됨
+    public void getLocation() {
+        if (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(BusActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+            //권한을 허용하지 않는 경우
+        } else {
+            //권한을 허용한 경우
+            try {
+                location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+
+                Toast.makeText(this, longitude+" "+latitude, Toast.LENGTH_SHORT).show();
+            } catch(SecurityException e) {
+                e.printStackTrace();
+            }
+        }
+        Toast.makeText(this, longitude+" "+latitude, Toast.LENGTH_SHORT).show();
+    }
+
 }

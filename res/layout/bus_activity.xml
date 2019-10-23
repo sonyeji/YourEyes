@@ -8,84 +8,52 @@
     android:weightSum="10"
     tools:context="org.YourEyes.demo.BusActivity">
 
-    <LinearLayout
+    <Spinner
+        android:id="@+id/sp_api"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:entries="@array/api"
+        android:layout_height="wrap_content"/>
 
-        <TextView
+    <RadioGroup
+        android:id="@+id/rg_object_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_json"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="언제 도착하지?"
-            android:textColor="#000000"
-            android:textSize="40dp" />
-    </LinearLayout>
+            android:checked="true"
+            android:text="Json"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        android:orientation="vertical"
-        android:weightSum="5">
-
-        <EditText
-            android:id="@+id/busNum"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:background="@null"
-            android:ems="10"
-            android:hint="버스 번호를 입력해주세요."
-            android:inputType="textPersonName"
-            android:text=""
-            android:textColor="#000000"
-            android:textColorHint="#000000" />
-
-        <EditText
-            android:id="@+id/stationArsno"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:background="@null"
-            android:ems="10"
-            android:hint="정류장 번호를 입력해주세요."
-            android:inputType="textPersonName"
-            android:text=""
-            android:textColor="#000000"
-            android:textColorHint="#000000" />
-
-
-        <Button
-            android:id="@+id/detect_bus"
+        <RadioButton
+            android:id="@+id/rb_map"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:onClick="search"
-            android:text="검색하기" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="map"/>
 
+    </RadioGroup>
 
     <Button
-        android:id="@+id/voice_search"
-        android:layout_width="match_parent"
+        android:id="@+id/bt_api_call"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="음성검색" />
+        android:text="API 호출"/>
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/showInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="#ffffffff"
-            android:textSize="20dp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>

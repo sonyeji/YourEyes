@@ -16,7 +16,7 @@
             android:layout_weight="1"
             android:padding="0sp"
             android:scaleType="centerCrop"
-            android:src="@drawable/object_btn"
+            android:src="@drawable/object_btn2"
             />
 
         <ImageButton
@@ -26,7 +26,7 @@
             android:layout_weight="1"
             android:padding="0sp"
             android:scaleType="centerCrop"
-            android:src="@drawable/word_btn" />
+            android:src="@drawable/word_btn2" />
 
         <ImageButton
             android:id="@+id/bus_btn"
@@ -35,6 +35,15 @@
             android:layout_weight="1"
             android:padding="0sp"
             android:scaleType="centerCrop"
-            android:src="@drawable/bus_btn" />
+            android:src="@drawable/bus_btn2" />
+
+        <ImageButton
+            android:id="@+id/information_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="0sp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/information_btn2" />
     </LinearLayout>
 </LinearLayout>

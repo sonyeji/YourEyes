@@ -66,6 +66,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/CustomTitle">
         </activity>
+        <activity android:name="org.YourEyes.demo.informationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTitle">
+        </activity>
         <activity android:name="org.YourEyes.demo.SttTest"
             android:screenOrientation="portrait">
         </activity>

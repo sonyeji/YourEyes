@@ -41,5 +41,11 @@ public class MenuActivity extends Activity {
                // startActivity(new Intent(getBaseContext(), SttTest.class));
             }
         });
+        bus_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getBaseContext(), informationActivity.class));
+            }
+        });
     }
 }

@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10"
-    tools:context="org.YourEyes.demo.BusActivity">
+    tools:context="org.YourEyes.demo.BusActivity"
+    android:background="#ffffff">
 
     <Spinner
         android:id="@+id/sp_api"

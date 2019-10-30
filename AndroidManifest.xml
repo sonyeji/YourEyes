@@ -59,10 +59,12 @@
             android:screenOrientation="portrait">
         </activity>
         <activity android:name="org.YourEyes.demo.TextDetectActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTitle">
         </activity>
         <activity android:name="org.YourEyes.demo.BusActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTitle">
         </activity>
         <activity android:name="org.YourEyes.demo.SttTest"
             android:screenOrientation="portrait">

@@ -18,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -69,25 +70,13 @@ public class BusActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.bus_activity);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.bus_titlebar);
 
         init();
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-       /* if (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(BusActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-            //권한을 허용하지 않는 경우
-        } else {
-            //권한을 허용한 경우
-            try {
-                location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                longitude = location.getLongitude();
-                latitude = location.getLatitude();
 
-                Toast.makeText(this, longitude+" "+latitude, Toast.LENGTH_SHORT).show();
-            } catch(SecurityException e) {
-                e.printStackTrace();
-            }
-        }*/
     }
 
     private void init() {
@@ -204,7 +193,7 @@ public class BusActivity extends Activity {
                 e.printStackTrace();
             }
         }
-        Toast.makeText(this, longitude+" "+latitude, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, longitude+" "+latitude, Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -36,5 +36,12 @@
         <item name="colorPrimaryDark">#00574B</item>
         <item name="colorAccent">#D81B60</item>
     </style>
+    <style name="CustomTitle" parent="android:Theme">
+        <item name="android:windowTitleSize">48dp</item>
+    </style>
+
+    <style name="CustomWindowTitleBackground">
+        <item name="android:background">#00000000</item>
+    </style>
 
 </resources>

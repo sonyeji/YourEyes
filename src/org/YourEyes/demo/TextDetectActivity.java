@@ -21,6 +21,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -66,7 +67,10 @@ public class TextDetectActivity extends Activity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.textdetect_activity);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.textdetect_titlebar);
+
         mContext = this;
 
         m_ivImage = (ImageView) findViewById(R.id.iv_image);
@@ -78,6 +82,7 @@ public class TextDetectActivity extends Activity implements View.OnClickListener
 
         m_objProgressCircle = new ProgressCircleDialog(this);
         m_messageHandler = new MessageHandler();
+
 
         if(CameraOnOffFlag)
         {

@@ -14,6 +14,7 @@ public class MenuActivity extends Activity {
     private ImageButton detect_btn;
     private ImageButton text_btn;
     private ImageButton bus_btn;
+    private ImageButton information_btn;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_activity);
@@ -21,6 +22,7 @@ public class MenuActivity extends Activity {
         detect_btn = (ImageButton)findViewById(R.id.detect_btn);
         text_btn = (ImageButton)findViewById(R.id.text_btn);
         bus_btn = (ImageButton)findViewById(R.id.bus_btn);
+        information_btn = (ImageButton)findViewById(R.id.information_btn);
 
         detect_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,7 +43,7 @@ public class MenuActivity extends Activity {
                // startActivity(new Intent(getBaseContext(), SttTest.class));
             }
         });
-        bus_btn.setOnClickListener(new View.OnClickListener() {
+        information_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getBaseContext(), informationActivity.class));

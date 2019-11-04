@@ -126,6 +126,9 @@ public class BusActivity extends Activity {
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            String s_lon = Double.toString(longitude);
+            String s_lat = Double.toString(latitude);
+            String my_loc = s_lon + ":" + s_lat;
             switch (spinnerSelectedName) {
                 case "버스 노선 조회":
                     odsayService.requestSearchBusLane("150", "1000", "no", "10", "1", onResultCallbackListener);
@@ -143,9 +146,6 @@ public class BusActivity extends Activity {
                     odsayService.requestSearchStation("11", "1000", "1", "10", "1", "127.34408682849399:36.36633737269802", onResultCallbackListener);
                     break;
                 case "반경내 대중교통 POI 검색":
-                   // getLocation();
-                    String s_lon = Double.toString(longitude);
-                    String s_lat = Double.toString(latitude);
                     odsayService.requestPointSearch(s_lon, s_lat, "250", "1", onResultCallbackListener);
                     break;
                 case "지도 위 대중교통 POI 검색":

@@ -40,8 +40,8 @@
         <item name="android:windowTitleSize">48dp</item>
     </style>
 
-    <style name="CustomWindowTitleBackground">
-        <item name="android:background">#00000000</item>
+    <!--<style name="CustomWindowTitleBackground">
+        <item name="android:background">#ffffffff</item>
     </style>
-
+-->
 </resources>

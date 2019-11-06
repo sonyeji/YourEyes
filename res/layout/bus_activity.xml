@@ -9,52 +9,71 @@
     tools:context="org.YourEyes.demo.BusActivity"
     android:background="#ffffff">
 
-    <Spinner
-        android:id="@+id/sp_api"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:entries="@array/api"
-        android:layout_height="wrap_content"/>
-
-   <!-- <RadioGroup
-        android:id="@+id/rg_object_type"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <Spinner
+            android:id="@+id/sp_api"
+            android:layout_width="0px"
+            android:layout_weight="4"
+            android:entries="@array/api"
+            android:layout_height="wrap_content"/>
 
-        <RadioButton
-            android:id="@+id/rb_json"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/bt_api_call"
+            android:layout_width="0px"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="Json"/>
+            android:text="검색"/>
+    </LinearLayout>
 
-        <RadioButton
-            android:id="@+id/rb_map"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="map"/>
-
-    </RadioGroup>
--->
-    <Button
-        android:id="@+id/bt_api_call"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="API 호출"/>
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:id="@+id/inputBus_layout">
+        <EditText
+            android:layout_width="0px"
+            android:layout_weight="4"
+            android:layout_height="wrap_content"
+            android:id="@+id/inputBus" />
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/inputBus_ok"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="검색"/>
+    </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:id="@+id/inputStation_layout">
 
-            <TextView
-                android:id="@+id/tv_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </ScrollView>
+        <EditText
+            android:id="@+id/inputStation"
+            android:layout_width="0px"
+            android:layout_weight="4"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/inputStation_ok"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="검색"/>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/stationList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"></ListView>
+
 
 </LinearLayout>

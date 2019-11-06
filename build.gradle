@@ -82,13 +82,13 @@ apply from: "download-models.gradle"
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 26
 
     if (nativeBuildSystem == 'cmake') {
         defaultConfig {
             applicationId = 'org.YourEyes.demo'
             minSdkVersion 21
-            targetSdkVersion 23
+            targetSdkVersion 26
             ndk {
                 abiFilters "${cpuType}"
             }
@@ -141,7 +141,7 @@ android {
         release.setRoot('build-types/release')
     }
     defaultConfig {
-        targetSdkVersion 23
+        targetSdkVersion 26
         minSdkVersion 21
     }
 }
@@ -196,7 +196,7 @@ dependencies {
         implementation 'org.tensorflow:tensorflow-android:+'
     }
     implementation 'com.rmtheis:tess-two:9.0.0'
-    implementation 'com.android.support:appcompat-v7:23.0.0'
+    implementation 'com.android.support:appcompat-v7:26.0.0'
     implementation project(path: ':SDK_release_v2.0.0')
     implementation 'com.google.code.findbugs:jsr305:2.0.1'
 }

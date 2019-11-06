@@ -187,6 +187,7 @@ public class MultiBoxTracker {
 
     final Matrix matrix = getFrameToCanvasMatrix();
     objectTracker.drawDebug(canvas, matrix);
+    trackedObjects.clear();
   }
 
   public synchronized void trackResults(
@@ -230,6 +231,7 @@ public class MultiBoxTracker {
       if(tts.isSpeaking() == false) {
         tts.speak(recognition.title, TextToSpeech.QUEUE_FLUSH, null);
         tts.playSilence(3000, QUEUE_ADD ,null);
+        trackedObjects.clear();
       }
     }
   }
@@ -281,6 +283,7 @@ public class MultiBoxTracker {
         availableColors.add(recognition.color);
       }
     }
+    trackedObjects.clear();
   }
 
   private void processResults(

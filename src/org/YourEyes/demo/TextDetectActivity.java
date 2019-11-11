@@ -42,6 +42,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import static android.speech.tts.TextToSpeech.ERROR;
+import static android.speech.tts.TextToSpeech.QUEUE_ADD;
 
 public class TextDetectActivity extends Activity implements View.OnClickListener{
     private boolean CameraOnOffFlag = true;
@@ -110,7 +111,8 @@ public class TextDetectActivity extends Activity implements View.OnClickListener
                         Toast.makeText(mContext, "지원하지 않는 언어입니다.", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        //tts.speak("Hello", TextToSpeech.QUEUE_FLUSH, null);
+                        String speak = "글자를 인식하려면 화면 하단에 있는 사진 찍기 버튼을 누른 후 글자를 촬영해주시기 바랍니다.";
+                        tts.speak(speak, TextToSpeech.QUEUE_FLUSH, null);
                     }
                 }else {
 
@@ -354,6 +356,8 @@ public class TextDetectActivity extends Activity implements View.OnClickListener
         public void run() {
             super.run();
             // 사진의 글자를 인식해서 옮긴다
+            String speak = "글자를 인식하는 중 입니다. 잠시만 기다려주세요.";
+            tts.speak(speak, TextToSpeech.QUEUE_FLUSH, null);
             String OCRresult = null;
             m_Tess.setImage(rotatedImage);
             OCRresult = m_Tess.getUTF8Text();

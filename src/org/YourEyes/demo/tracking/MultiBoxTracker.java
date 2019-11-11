@@ -229,7 +229,9 @@ public class MultiBoxTracker {
       borderedText.drawText(canvas, trackedPos.left + cornerSize, trackedPos.bottom, labelString);
 
       if(tts.isSpeaking() == false) {
-        tts.speak(recognition.title, TextToSpeech.QUEUE_FLUSH, null);
+        String speak = "전방에 " + recognition.title + "이 있습니다.";
+        tts.speak(speak, TextToSpeech.QUEUE_FLUSH, null);
+        //tts.speak(recognition.title, TextToSpeech.QUEUE_FLUSH, null);
         tts.playSilence(3000, QUEUE_ADD ,null);
         trackedObjects.clear();
       }

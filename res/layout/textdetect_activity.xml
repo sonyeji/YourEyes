@@ -21,6 +21,7 @@
             android:layout_below="@+id/scrollView"
             android:layout_marginLeft="20px"
             android:gravity="center"
+            android:visibility="gone"
             android:text="처리시간" />
 
         <ScrollView
@@ -58,9 +59,11 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:background="#D1D1D1"
+        android:background="#FAC87F"
         android:gravity="center"
         android:text="사진찍기"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#ffffff"
+        android:textStyle="bold" />
 
 </RelativeLayout>

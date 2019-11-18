@@ -90,6 +90,7 @@ public class BusActivity extends Activity {
     private String cityCode = "25";
     private ArrayList<Station> stations;
     private TextToSpeech tts;
+    private Button voice_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +127,7 @@ public class BusActivity extends Activity {
 
         bt_api_call.setOnClickListener(onClickListener);
         sp_api.setOnItemSelectedListener(onItemSelectedListener);
+        voice_btn = findViewById(R.id.voice_btn);
 
         tts = new TextToSpeech(getBaseContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -239,6 +241,7 @@ public class BusActivity extends Activity {
                 case "버스정류장 세부정보 조회":
                     inputBus_layout.setVisibility(View.GONE);stationList.setVisibility(View.GONE);
                     inputStation_layout.setVisibility(View.VISIBLE);
+                    voice_btn.setVisibility(View.VISIBLE);
 
                     RESAULT_CALL_BACK_STATE = 2;
 
@@ -247,6 +250,7 @@ public class BusActivity extends Activity {
                 case "반경내 정류장 검색":
                     //반경 내 정류장 나타내는 View만 활성화
                     inputBus_layout.setVisibility(View.GONE);inputStation_layout.setVisibility(View.GONE);
+                    voice_btn.setVisibility(View.VISIBLE);
                     RESAULT_CALL_BACK_STATE = 3;
 
                     //정류장 검색 Task
@@ -417,7 +421,6 @@ public class BusActivity extends Activity {
                         }
                     }
                 };
-
                 speech.start();
 
             } catch (Exception e) {

@@ -402,10 +402,10 @@ public class BusActivity extends Activity {
                                 stations.add(new Station(name, id, local_id, x, y));
                             }
                         }
-                        ListSpeaking(stations, tts);
                     }
                     adapter = new StatAdapter(getApplicationContext(), stations);
                     stationList.setAdapter(adapter);
+                    ListSpeaking(stations, tts);
                 }
 
                 stationList.setVisibility(View.VISIBLE);
@@ -449,21 +449,18 @@ public class BusActivity extends Activity {
     private static void ListSpeaking(ArrayList<Station> stations, TextToSpeech tts) throws InterruptedException {
         int size = stations.size();
         String speak = "";
-        for (int i=0; i < size; i++) {
-            //speak = speak + " " + stations.get(i).name + " " + stations.get(i).id;
-            speak = stations.get(i).name + " " + stations.get(i).id;
-            while(true) {
-                if (tts.isSpeaking() == false) {
-                    tts.speak(speak, QUEUE_FLUSH, null);
-                    tts.playSilence(1000, QUEUE_ADD, null);
-                    break;
-                }
-                else{
-                    continue;
-                }
+        int i = 0;
+        while (true) {
+            if(i > size)    break;
+            if (tts.isSpeaking() == false) {
+                speak = stations.get(i).name + " " + stations.get(i).id;
+                tts.speak(speak, QUEUE_FLUSH, null);
+                tts.playSilence(1000, QUEUE_ADD, null);
+                i++;
+            }else{
+                continue;
             }
         }
-        //tts.speak(speak, TextToSpeech.QUEUE_FLUSH, null);
     }
 
 }

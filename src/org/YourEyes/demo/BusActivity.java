@@ -49,6 +49,7 @@ import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 
 import java.io.BufferedReader;
+import java.io.Flushable;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -185,17 +186,33 @@ public class BusActivity extends Activity {
                     try {
                         mRecognizer.startListening(i);
 
+                        if(RESAULT_CALL_BACK_STATE == 3){
+                            int index = -1;
+                            for(int i = 0; i < stations.size(); i++){
+                                if(search_name.equals(stations.get(i).name)){
+                                    index = i;
+                                    break;
+                                }
+                            }
+                            if(index != -1){
+                                String stationID = stations.get(index).getLocal_id();
+                                String stationName = stations.get(index).getName();
+
+                                Intent intent = new Intent(getApplicationContext(), RealTimeStationInfo.class);
+
+                                intent.putExtra("name", stationName);
+                                intent.putExtra("id", stationID);
+                                intent.putExtra("cityCode", cityCode);
+                                startActivity(intent);
+                            }
+
+                        }
+
                     } catch(SecurityException e) {
                         e.printStackTrace();
                     }
                 }
 
-                //음성인식 데이터 가공(띄워쓰기 제거)
-                String[] tmp = input_voice.split(" ");
-                search_name = "";
-                for(int i = 0; i < tmp.length; i++){
-                    search_name += tmp[i];
-                }
             }
         });
 
@@ -519,7 +536,7 @@ public class BusActivity extends Activity {
                 continue;
             }
         }
-        speak = "정류장 상세 정보를 검색하고 싶으시면 하단의 음성 검색 버튼을 누른 뒤 삐 소리가 난 후 정류장 이름을 말씀해주시기 바랍니다.";
+        speak = "정류장 상세 정보를 검색하고 싶으시면 리스트에서 정류장을 선택하시거나 하단의 음성 검색 버튼을 누른 뒤 삐 소리가 난 후 정류장 이름을 말씀해주시기 바랍니다.";
         tts.speak(speak, QUEUE_FLUSH, null);
     }
 
@@ -552,6 +569,7 @@ public class BusActivity extends Activity {
         @Override
         public void onError(int error) {
             Toast.makeText(getBaseContext(), "천천히 다시 말해주세요.", Toast.LENGTH_SHORT).show();
+            tts.speak("천천히 다시 말해주세요.", QUEUE_FLUSH, null);
         }
 
         @Override
@@ -571,9 +589,16 @@ public class BusActivity extends Activity {
             ArrayList<String> mResult = results.getStringArrayList(key);
             String[] rs = new String[mResult.size()];
             mResult.toArray(rs);
-            Toast.makeText(getBaseContext(), rs[0], Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getBaseContext(), rs[0], Toast.LENGTH_SHORT).show();
             //음성인식 결과 (rs[0]) 를 전역변수 input_voice에 저장
             input_voice = rs[0];
+            String[] tmp = input_voice.split(" ");
+            search_name = "";
+            for(int i = 0; i < tmp.length; i++){
+                search_name += tmp[i];
+            }
+            Toast.makeText(getBaseContext(), search_name, Toast.LENGTH_SHORT).show();
+            tts.speak("다시 한번 음성 검색 메뉴를 눌러주세요.", QUEUE_FLUSH, null);
             //  mRecognizer.startListening(i); //음성인식이 계속 되는 구문이니 필요에 맞게 쓰시길 바람
         }
     };

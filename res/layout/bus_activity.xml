@@ -94,7 +94,8 @@
             android:background="#00FFFFFF"
             android:src="@drawable/speech_btn"
             tools:src="@drawable/speech_btn"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:layout_marginBottom="10dp"/>
     </LinearLayout>
 
 

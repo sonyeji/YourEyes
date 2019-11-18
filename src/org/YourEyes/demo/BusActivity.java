@@ -405,10 +405,10 @@ public class BusActivity extends Activity {
                     }
                     adapter = new StatAdapter(getApplicationContext(), stations);
                     stationList.setAdapter(adapter);
-                    ListSpeaking(stations, tts);
                 }
 
                 stationList.setVisibility(View.VISIBLE);
+                ListSpeaking(stations, tts);
             } catch (Exception e) {
                 e.printStackTrace();
             }

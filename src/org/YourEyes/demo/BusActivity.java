@@ -18,10 +18,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,7 +27,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.odsay.odsayandroidsdk.API;
@@ -37,19 +34,14 @@ import com.odsay.odsayandroidsdk.ODsayData;
 import com.odsay.odsayandroidsdk.ODsayService;
 import com.odsay.odsayandroidsdk.OnResultCallbackListener;
 
-import org.YourEyes.demo.R;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 
 import java.io.BufferedReader;
-import java.io.Flushable;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -64,7 +56,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import static android.speech.tts.TextToSpeech.ERROR;
 import static android.speech.tts.TextToSpeech.QUEUE_ADD;
 import static android.speech.tts.TextToSpeech.QUEUE_FLUSH;
-import static java.lang.Thread.sleep;
 
 
 public class BusActivity extends Activity {
@@ -102,6 +93,7 @@ public class BusActivity extends Activity {
     private final int MY_PERMISSIONS_RECORD_AUDIO = 1;
     public String input_voice = "";
     public String search_name = "";
+    public int listen_state = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,28 +178,28 @@ public class BusActivity extends Activity {
                     try {
                         mRecognizer.startListening(i);
 
-                        if(RESAULT_CALL_BACK_STATE == 3){
-                            int index = -1;
-                            for(int i = 0; i < stations.size(); i++){
-                                if(search_name.equals(stations.get(i).name)){
-                                    index = i;
-                                    break;
+                        if(listen_state == 1){
+                            if(RESAULT_CALL_BACK_STATE == 3){
+                                int index = -1;
+                                for(int i = 0; i < stations.size(); i++){
+                                    if(search_name.equals(stations.get(i).name)){
+                                        index = i;
+                                        break;
+                                    }
+                                }
+                                if(index != -1){
+                                    String stationID = stations.get(index).getLocal_id();
+                                    String stationName = stations.get(index).getName();
+
+                                    Intent intent = new Intent(getApplicationContext(), RealTimeStationInfo.class);
+
+                                    intent.putExtra("name", stationName);
+                                    intent.putExtra("id", stationID);
+                                    intent.putExtra("cityCode", cityCode);
+                                    startActivity(intent);
                                 }
                             }
-                            if(index != -1){
-                                String stationID = stations.get(index).getLocal_id();
-                                String stationName = stations.get(index).getName();
-
-                                Intent intent = new Intent(getApplicationContext(), RealTimeStationInfo.class);
-
-                                intent.putExtra("name", stationName);
-                                intent.putExtra("id", stationID);
-                                intent.putExtra("cityCode", cityCode);
-                                startActivity(intent);
-                            }
-
                         }
-
                     } catch(SecurityException e) {
                         e.printStackTrace();
                     }
@@ -521,23 +513,26 @@ public class BusActivity extends Activity {
         }
     }
 
-    private static void ListSpeaking(ArrayList<Station> stations, TextToSpeech tts) throws InterruptedException {
+    private static void ListSpeaking(ArrayList<Station> stations, TextToSpeech tts){
         int size = stations.size();
         String speak = "";
         int i = 0;
         while (true) {
-            if(i > size)    break;
             if (tts.isSpeaking() == false) {
-                speak = stations.get(i).name + " " + stations.get(i).id;
-                tts.speak(speak, QUEUE_FLUSH, null);
-                tts.playSilence(1000, QUEUE_ADD, null);
-                i++;
+                if(i < size){
+                    speak = stations.get(i).name + " " + stations.get(i).id;
+                    tts.speak(speak, QUEUE_FLUSH, null);
+                    tts.playSilence(1000, QUEUE_ADD, null);
+                    i++;
+                }else{
+                    speak = "정류장 상세 정보를 검색하고 싶으시면 리스트에서 정류장을 선택하시거나 하단의 음성 검색 버튼을 누른 뒤 삐 소리가 난 후 정류장 이름을 말씀해주시기 바랍니다.";
+                    tts.speak(speak, QUEUE_FLUSH, null);
+                    break;
+                }
             }else{
                 continue;
             }
         }
-        speak = "정류장 상세 정보를 검색하고 싶으시면 리스트에서 정류장을 선택하시거나 하단의 음성 검색 버튼을 누른 뒤 삐 소리가 난 후 정류장 이름을 말씀해주시기 바랍니다.";
-        tts.speak(speak, QUEUE_FLUSH, null);
     }
 
     //음성인식 listener
@@ -584,22 +579,30 @@ public class BusActivity extends Activity {
 
         @Override
         public void onResults(Bundle results) {
-            String key= "";
-            key = SpeechRecognizer.RESULTS_RECOGNITION;
-            ArrayList<String> mResult = results.getStringArrayList(key);
-            String[] rs = new String[mResult.size()];
-            mResult.toArray(rs);
-            //Toast.makeText(getBaseContext(), rs[0], Toast.LENGTH_SHORT).show();
-            //음성인식 결과 (rs[0]) 를 전역변수 input_voice에 저장
-            input_voice = rs[0];
-            String[] tmp = input_voice.split(" ");
-            search_name = "";
-            for(int i = 0; i < tmp.length; i++){
-                search_name += tmp[i];
+            if(listen_state == 1){
+                input_voice = "";
+                search_name = "";
+                listen_state = 0;
             }
-            Toast.makeText(getBaseContext(), search_name, Toast.LENGTH_SHORT).show();
-            tts.speak("다시 한번 음성 검색 메뉴를 눌러주세요.", QUEUE_FLUSH, null);
-            //  mRecognizer.startListening(i); //음성인식이 계속 되는 구문이니 필요에 맞게 쓰시길 바람
+            else{
+                String key= "";
+                key = SpeechRecognizer.RESULTS_RECOGNITION;
+                ArrayList<String> mResult = results.getStringArrayList(key);
+                String[] rs = new String[mResult.size()];
+                mResult.toArray(rs);
+                //Toast.makeText(getBaseContext(), rs[0], Toast.LENGTH_SHORT).show();
+                //음성인식 결과 (rs[0]) 를 전역변수 input_voice에 저장
+                input_voice = rs[0];
+                String[] tmp = input_voice.split(" ");
+                search_name = "";
+                for(int i = 0; i < tmp.length; i++){
+                    search_name += tmp[i];
+                }
+                Toast.makeText(getBaseContext(), search_name, Toast.LENGTH_SHORT).show();
+                listen_state = 1;
+                tts.speak("다시 한번 음성 검색 메뉴를 눌러주세요.", QUEUE_FLUSH, null);
+                //  mRecognizer.startListening(i); //음성인식이 계속 되는 구문이니 필요에 맞게 쓰시길 바람
+            }
         }
     };
 

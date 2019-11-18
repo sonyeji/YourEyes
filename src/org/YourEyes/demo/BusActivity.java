@@ -117,6 +117,8 @@ public class BusActivity extends Activity {
         bt_api_call.setOnClickListener(onClickListener);
         sp_api.setOnItemSelectedListener(onItemSelectedListener);
 
+
+        //정류장 클릭 -> 실시간 도착정보 액티비티 시작
         stationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -10,6 +10,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -91,7 +94,11 @@ public class BusActivity extends Activity {
     private String cityCode = "25";
     private ArrayList<Station> stations;
     private TextToSpeech tts;
+
     private ImageButton voice_btn;
+    private SpeechRecognizer mRecognizer;
+    private Intent i;
+    private final int MY_PERMISSIONS_RECORD_AUDIO = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +137,12 @@ public class BusActivity extends Activity {
         sp_api.setOnItemSelectedListener(onItemSelectedListener);
         voice_btn = findViewById(R.id.voice_btn);
 
+        i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        i.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getBaseContext().getPackageName());
+        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
+        mRecognizer = SpeechRecognizer.createSpeechRecognizer(getBaseContext());
+        mRecognizer.setRecognitionListener(listener);
+
         tts = new TextToSpeech(getBaseContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -153,6 +166,24 @@ public class BusActivity extends Activity {
 
                     Toast.makeText(getBaseContext(), "TTS 작업에 실패하였습니다.", Toast.LENGTH_SHORT).show();
 
+                }
+            }
+        });
+
+        voice_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("-------------------------------------- 음성인식 시작!");
+                if (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(BusActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_RECORD_AUDIO);
+                    //권한을 허용하지 않는 경우
+                } else {
+                    //권한을 허용한 경우
+                    try {
+                        mRecognizer.startListening(i);
+                    } catch(SecurityException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -477,6 +508,59 @@ public class BusActivity extends Activity {
                 continue;
             }
         }
+        speak = "정류장 상세 정보를 검색하고 싶으시면 하단의 음성 검색 버튼을 누른 뒤 삐 소리가 난 후 정류장 이름을 말씀해주시기 바랍니다.";
     }
+
+    private RecognitionListener listener = new RecognitionListener() {
+        @Override
+        public void onReadyForSpeech(Bundle params) {
+            System.out.println("onReadyForSpeech.........................");
+        }
+        @Override
+        public void onBeginningOfSpeech() {
+            Toast.makeText(getBaseContext(), "음성을 입력받고 있습니다!", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onRmsChanged(float rmsdB) {
+            System.out.println("onRmsChanged.........................");
+        }
+
+        @Override
+        public void onBufferReceived(byte[] buffer) {
+            System.out.println("onBufferReceived.........................");
+        }
+
+        @Override
+        public void onEndOfSpeech() {
+            System.out.println("onEndOfSpeech.........................");
+        }
+
+        @Override
+        public void onError(int error) {
+            Toast.makeText(getBaseContext(), "천천히 다시 말해주세요.", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onPartialResults(Bundle partialResults) {
+            System.out.println("onPartialResults.........................");
+        }
+
+        @Override
+        public void onEvent(int eventType, Bundle params) {
+            System.out.println("onEvent.........................");
+        }
+
+        @Override
+        public void onResults(Bundle results) {
+            String key= "";
+            key = SpeechRecognizer.RESULTS_RECOGNITION;
+            ArrayList<String> mResult = results.getStringArrayList(key);
+            String[] rs = new String[mResult.size()];
+            mResult.toArray(rs);
+            Toast.makeText(getBaseContext(), rs[0], Toast.LENGTH_SHORT).show();
+            //  mRecognizer.startListening(i); //음성인식이 계속 되는 구문이니 필요에 맞게 쓰시길 바람
+        }
+    };
 
 }

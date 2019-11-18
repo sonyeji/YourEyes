@@ -10,6 +10,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -40,6 +41,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 
 import java.io.BufferedReader;
@@ -49,9 +51,15 @@ import java.io.StringReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import static android.speech.tts.TextToSpeech.ERROR;
+import static android.speech.tts.TextToSpeech.QUEUE_ADD;
+import static android.speech.tts.TextToSpeech.QUEUE_FLUSH;
+import static java.lang.Thread.sleep;
 
 
 public class BusActivity extends Activity {
@@ -81,6 +89,8 @@ public class BusActivity extends Activity {
     private String stationName;
     private String cityCode = "25";
     private ArrayList<Station> stations;
+    private TextToSpeech tts;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +127,32 @@ public class BusActivity extends Activity {
         bt_api_call.setOnClickListener(onClickListener);
         sp_api.setOnItemSelectedListener(onItemSelectedListener);
 
+        tts = new TextToSpeech(getBaseContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != ERROR) {
+                    int language = tts.setLanguage(Locale.KOREAN);
+                    if (language == TextToSpeech.LANG_MISSING_DATA
+
+                            || language == TextToSpeech.LANG_NOT_SUPPORTED) {
+
+                        // 언어 데이터가 없거나, 지원하지 않는경우
+
+                        Toast.makeText(getBaseContext(), "지원하지 않는 언어입니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        String speak = "버스 안내 메뉴 입니다.";
+                        tts.speak(speak, TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                }else {
+
+                    // 작업 실패
+
+                    Toast.makeText(getBaseContext(), "TTS 작업에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
 
         //정류장 클릭 -> 실시간 도착정보 액티비티 시작
         stationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -366,6 +402,7 @@ public class BusActivity extends Activity {
                                 stations.add(new Station(name, id, local_id, x, y));
                             }
                         }
+                        ListSpeaking(stations, tts);
                     }
                     adapter = new StatAdapter(getApplicationContext(), stations);
                     stationList.setAdapter(adapter);
@@ -409,6 +446,24 @@ public class BusActivity extends Activity {
         }
     }
 
-
+    private static void ListSpeaking(ArrayList<Station> stations, TextToSpeech tts) throws InterruptedException {
+        int size = stations.size();
+        String speak = "";
+        for (int i=0; i < size; i++) {
+            //speak = speak + " " + stations.get(i).name + " " + stations.get(i).id;
+            speak = stations.get(i).name + " " + stations.get(i).id;
+            while(true) {
+                if (tts.isSpeaking() == false) {
+                    tts.speak(speak, QUEUE_FLUSH, null);
+                    tts.playSilence(1000, QUEUE_ADD, null);
+                    break;
+                }
+                else{
+                    continue;
+                }
+            }
+        }
+        //tts.speak(speak, TextToSpeech.QUEUE_FLUSH, null);
+    }
 
 }

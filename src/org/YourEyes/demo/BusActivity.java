@@ -99,6 +99,8 @@ public class BusActivity extends Activity {
     private SpeechRecognizer mRecognizer;
     private Intent i;
     private final int MY_PERMISSIONS_RECORD_AUDIO = 1;
+    public String input_voice = "";
+    public String search_name = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +172,7 @@ public class BusActivity extends Activity {
             }
         });
 
+        //음성인식 코드
         voice_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,9 +184,17 @@ public class BusActivity extends Activity {
                     //권한을 허용한 경우
                     try {
                         mRecognizer.startListening(i);
+
                     } catch(SecurityException e) {
                         e.printStackTrace();
                     }
+                }
+
+                //음성인식 데이터 가공(띄워쓰기 제거)
+                String[] tmp = input_voice.split(" ");
+                search_name = "";
+                for(int i = 0; i < tmp.length; i++){
+                    search_name += tmp[i];
                 }
             }
         });
@@ -509,8 +520,10 @@ public class BusActivity extends Activity {
             }
         }
         speak = "정류장 상세 정보를 검색하고 싶으시면 하단의 음성 검색 버튼을 누른 뒤 삐 소리가 난 후 정류장 이름을 말씀해주시기 바랍니다.";
+        tts.speak(speak, QUEUE_FLUSH, null);
     }
 
+    //음성인식 listener
     private RecognitionListener listener = new RecognitionListener() {
         @Override
         public void onReadyForSpeech(Bundle params) {
@@ -559,6 +572,8 @@ public class BusActivity extends Activity {
             String[] rs = new String[mResult.size()];
             mResult.toArray(rs);
             Toast.makeText(getBaseContext(), rs[0], Toast.LENGTH_SHORT).show();
+            //음성인식 결과 (rs[0]) 를 전역변수 input_voice에 저장
+            input_voice = rs[0];
             //  mRecognizer.startListening(i); //음성인식이 계속 되는 구문이니 필요에 맞게 쓰시길 바람
         }
     };

@@ -87,15 +87,14 @@
         android:layout_height="wrap_content"
         android:layout_weight="1">
 
-        <Button
+        <ImageButton
             android:id="@+id/voice_btn"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="#FFAB90"
-            android:text="음성 검색"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            />
+            android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
+            android:src="@drawable/speech_btn"
+            tools:src="@drawable/speech_btn"
+            android:visibility="gone"/>
     </LinearLayout>
 
 

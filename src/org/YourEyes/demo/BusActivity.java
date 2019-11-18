@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -90,7 +91,7 @@ public class BusActivity extends Activity {
     private String cityCode = "25";
     private ArrayList<Station> stations;
     private TextToSpeech tts;
-    private Button voice_btn;
+    private ImageButton voice_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,6 +235,7 @@ public class BusActivity extends Activity {
                 case "버스노선 상세정보 조회":
                     inputStation_layout.setVisibility(View.GONE);stationList.setVisibility(View.GONE);
                     inputBus_layout.setVisibility(View.VISIBLE);
+                    voice_btn.setVisibility(View.GONE);
 
                     RESAULT_CALL_BACK_STATE = 1;
                     odsayService.requestBusLaneDetail("12018", onResultCallbackListener);

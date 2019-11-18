@@ -408,7 +408,16 @@ public class BusActivity extends Activity {
                 }
 
                 stationList.setVisibility(View.VISIBLE);
-                ListSpeaking(stations, tts);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            ListSpeaking(stations, tts);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
             } catch (Exception e) {
                 e.printStackTrace();
             }

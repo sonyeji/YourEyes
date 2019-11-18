@@ -126,10 +126,13 @@ public class RealTimeStationInfo extends Activity {
             }
             return "";
         }
+
+        //파싱
         @Override
         protected void onPostExecute(String result) {
             Log.d("postexe1", result);
             try {
+
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 Document document = builder.parse(new InputSource(new StringReader(result)));

@@ -203,17 +203,17 @@ public class BusActivity extends Activity {
                     inputStation_layout.setVisibility(View.VISIBLE);
 
                     RESAULT_CALL_BACK_STATE = 2;
-                    //odsayService.requestBusStationInfo("107475", onResultCallbackListener);
+
                     break;
+
                 case "반경내 정류장 검색":
+                    //반경 내 정류장 나타내는 View만 활성화
                     inputBus_layout.setVisibility(View.GONE);inputStation_layout.setVisibility(View.GONE);
                     RESAULT_CALL_BACK_STATE = 3;
-                    //odsayService.requestPointSearch(s_lon, s_lat, "250", "1", onResultCallbackListener);
+
+                    //정류장 검색 Task
                     ReceiveStationTask receiveStationTaskTask = new ReceiveStationTask();
                     receiveStationTaskTask.execute("");
-
-                   /* ReceiveBusTask receiveBusTask = new ReceiveBusTask();
-                    receiveBusTask.execute("");*/
 
                     break;
             }
@@ -275,6 +275,7 @@ public class BusActivity extends Activity {
                 String URL = "";
                 StringBuilder urlBuilder = new StringBuilder(URL);
 
+                //버스 정류장 검색
                 if(RESAULT_CALL_BACK_STATE == 2) {
                     URL = "http://openapi.tago.go.kr/openapi/service/BusSttnInfoInqireService/getSttnNoList?ServiceKey="+SERVICE_KEY;
                     urlBuilder = new StringBuilder(URL);
@@ -284,6 +285,8 @@ public class BusActivity extends Activity {
 
                     Log.d("URL", urlBuilder.toString());
                 }
+
+                //반경 내 정류장 검색
                 else if(RESAULT_CALL_BACK_STATE == 3) {
                     URL = "http://openapi.tago.go.kr/openapi/service/BusSttnInfoInqireService/getCrdntPrxmtSttnList?ServiceKey="+SERVICE_KEY;
                     urlBuilder = new StringBuilder(URL);
@@ -301,6 +304,7 @@ public class BusActivity extends Activity {
                 InputStreamReader reader = new InputStreamReader(is);
                 BufferedReader in = new BufferedReader(reader);
 
+                //결과 값 저장
                 while((readed = in.readLine()) != null)
                     return readed;
 
@@ -313,6 +317,7 @@ public class BusActivity extends Activity {
         protected void onPostExecute(String result) {
             Log.d("postexe1", result);
             try {
+                //파싱
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 Document document = builder.parse(new InputSource(new StringReader(result)));
@@ -335,6 +340,8 @@ public class BusActivity extends Activity {
                             stations.add(new Station(name, id, local_id, x, y));
                         }
                     }
+
+                    //버스 정류장 ListView 어댑터
                     adapter = new StatAdapter(getApplicationContext(), stations);
                     stationList.setAdapter(adapter);
                 }

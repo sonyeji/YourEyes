@@ -315,9 +315,7 @@ public class BusActivity extends Activity {
                         Log.d("test", busNo);
 
                         BUS_ID = busID;
-                        laneInfo.setText("버스 번호 : "+busNo+"\n"+"기점지 : "+StartPoint+"\n"+"종점지 : "+EndPoint+"\n"
-                        +"첫차 시간 : "+FirstTime+"\n"+"막차 시간 : "+LastTime+"\n"+"평일 버스 간격 : "+busInterval+"\n"
-                        +"토요일 버스 간격 : "+busInterval_Sat+"\n"+"일요일 버스 간격 : "+busInterval_Sun);
+                        laneInfo.setText("버스 번호 : "+busNo+"\n"+"기점지 : "+StartPoint+"\n"+"종점지 : "+EndPoint);
 
                         laneInfo_layout.setVisibility(View.VISIBLE);
                     } catch (JSONException e) {
@@ -373,6 +371,12 @@ public class BusActivity extends Activity {
             String s_lon = Double.toString(longitude);
             String s_lat = Double.toString(latitude);
             String my_loc = s_lon + ":" + s_lat;
+
+            //station List 초기화 ( 반응이 느려서 자꾸 전에 리스트 값이 약간 보임 )
+            stations = new ArrayList<>();
+            adapter = new StatAdapter(getApplicationContext(), stations);
+            stationList.setAdapter(adapter);
+
             switch (spinnerSelectedName) {
                 case "버스노선 상세정보 조회":
                     inputStation_layout.setVisibility(View.GONE);stationList.setVisibility(View.GONE);
@@ -509,7 +513,6 @@ public class BusActivity extends Activity {
                 Document document = builder.parse(new InputSource(new StringReader(result)));
 
                 NodeList nodeList = document.getElementsByTagName("item");
-                stations = new ArrayList<>();
 
                 if(RESAULT_CALL_BACK_STATE == 2) {
                     for (int i = 0; i < nodeList.getLength(); i++) {

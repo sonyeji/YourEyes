@@ -99,7 +99,7 @@ public class BusAdapter extends BaseAdapter {
         while (true) {
             if (tts.isSpeaking() == false) {
                 if(i < size){
-                    speak = list.get(i).getRouteno() + "번" + list.get(i).getArrtime() + "분 후도착";
+                    speak = list.get(i).getRouteno() + "번" + list.get(i).getArrtime() + "분 후 도착예정";
                     tts.speak(speak, QUEUE_FLUSH, null);
                     tts.playSilence(1000, QUEUE_ADD, null);
                     i++;

@@ -732,4 +732,11 @@ public class BusActivity extends Activity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (tts.isSpeaking() == true){
+            tts.shutdown();
+        }
+        super.onBackPressed();
+    }
 }

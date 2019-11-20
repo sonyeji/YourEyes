@@ -81,7 +81,34 @@
                 android:text="검색"/>
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/laneInfo_layout"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/laneInfo" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/direction_btn_layout">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1 방향"
+                    android:id="@+id/direction1_btn"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2 방향"
+                    android:id="@+id/direction2_btn"/>
 
+            </LinearLayout>
+        </LinearLayout>
         <ListView
             android:id="@+id/stationList"
             android:layout_width="match_parent"

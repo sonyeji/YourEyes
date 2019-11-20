@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.odsay.odsayandroidsdk.API;
@@ -34,6 +35,8 @@ import com.odsay.odsayandroidsdk.ODsayData;
 import com.odsay.odsayandroidsdk.ODsayService;
 import com.odsay.odsayandroidsdk.OnResultCallbackListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -63,11 +66,21 @@ public class BusActivity extends Activity {
     private Button bt_api_call;
     private EditText inputBus;
     private EditText inputStation;
+    private TextView laneInfo;
     private ListView stationList;
     private LinearLayout inputBus_layout;
     private LinearLayout inputStation_layout;
     private Button inputBus_ok;
     private Button inputStation_ok;
+
+    private LinearLayout laneInfo_layout;
+    private Button direction1_btn;
+    private Button direction2_btn;
+    private LinearLayout direction_btn_layout;
+
+
+    private String BUS_ID = "";
+    private int BUS_DIRECTION = 0;
 
     private Context context;
     private String spinnerSelectedName;
@@ -113,6 +126,7 @@ public class BusActivity extends Activity {
         context = this;
         sp_api = (Spinner) findViewById(R.id.sp_api);
         bt_api_call = (Button) findViewById(R.id.bt_api_call);
+        laneInfo = (TextView)findViewById(R.id.laneInfo);
         stationList = (ListView)findViewById(R.id.stationList);
         inputBus = (EditText)findViewById(R.id.inputBus);
         inputStation = (EditText)findViewById(R.id.inputStation);
@@ -122,6 +136,11 @@ public class BusActivity extends Activity {
 
         inputBus_ok = (Button)findViewById(R.id.inputBus_ok);
         inputStation_ok = (Button)findViewById(R.id.inputStation_ok);
+
+        laneInfo_layout = (LinearLayout)findViewById(R.id.laneInfo_layout);
+        direction_btn_layout = (LinearLayout)findViewById(R.id.direction_btn_layout);
+        direction1_btn = (Button)findViewById(R.id.direction1_btn);
+        direction2_btn = (Button)findViewById(R.id.direction2_btn);
 
         sp_api.setSelection(0);
 
@@ -225,9 +244,11 @@ public class BusActivity extends Activity {
         inputBus_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String bus = inputBus.getText().toString();
+                odsayService.requestSearchBusLane(bus, "3000", "no", "1", null, onResultCallbackListener);
             }
         });
+
         inputStation_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,6 +256,25 @@ public class BusActivity extends Activity {
 
                 ReceiveStationTask receiveStationTaskTask = new ReceiveStationTask();
                 receiveStationTaskTask.execute("");
+            }
+        });
+
+        //방향 선택 후 상세 정보 호출
+        direction1_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BUS_DIRECTION = 1;
+                RESAULT_CALL_BACK_STATE = 4;
+                odsayService.requestBusLaneDetail(BUS_ID, onResultCallbackListener);
+
+            }
+        });
+        direction2_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BUS_DIRECTION = 2;
+                RESAULT_CALL_BACK_STATE = 4;
+                odsayService.requestBusLaneDetail(BUS_ID, onResultCallbackListener);
             }
         });
     }
@@ -257,13 +297,67 @@ public class BusActivity extends Activity {
             jsonObject = oDsayData.getJson();
             //tv_data.setText(jsonObject.toString());
             switch(RESAULT_CALL_BACK_STATE) {
-                case 1:     //Bus
+                case 1:     //버스 노선 조회
+                    Log.d("laneinfo", jsonObject.toString());
+                    String busID = "";
+                    try {
+                        JSONArray jsonArray = jsonObject.getJSONObject("result").getJSONArray("lane");
+                        JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+                        String busNo = jsonObject.getString("busNo");
+                        String StartPoint = jsonObject.getString("busStartPoint");
+                        String EndPoint = jsonObject.getString("busEndPoint");
+                        String FirstTime = jsonObject.getString("busFirstTime");
+                        String LastTime = jsonObject.getString("busLastTime");
+                        String busInterval = jsonObject.getString("busInterval");
+                        String busInterval_Sat = jsonObject.getString("bus_Interval_Sat");
+                        String busInterval_Sun = jsonObject.getString("bus_Interval_Sun");
+
+                        busID = jsonObject.getString("busID");
+                        Log.d("test", busNo);
+
+                        BUS_ID = busID;
+                        laneInfo.setText("버스 번호 : "+busNo+"\n"+"기점지 : "+StartPoint+"\n"+"종점지 : "+EndPoint+"\n"
+                        +"첫차 시간 : "+FirstTime+"\n"+"막차 시간 : "+LastTime+"\n"+"평일 버스 간격 : "+busInterval+"\n"
+                        +"토요일 버스 간격 : "+busInterval_Sat+"\n"+"일요일 버스 간격 : "+busInterval_Sun);
+
+                        laneInfo_layout.setVisibility(View.VISIBLE);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     break;
                 case 2:     //Station
 
                     break;
                 case 3:     //Location
+                    break;
 
+                case 4: //노선 전체 정류장 1 방향, 2 방향 있음
+                    try {
+                        Log.d("case4", jsonObject.toString());
+                        JSONArray jsonArray = jsonObject.getJSONObject("result").getJSONArray("station");
+                        stations = new ArrayList<>();
+                        for(int i = 0; i<jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            String stationDirection = jsonObject.getString("stationDirection");
+                            if(BUS_DIRECTION == Integer.parseInt(stationDirection)) {
+                                String stationName = jsonObject.getString("stationName");
+                                String stationID = jsonObject.getString("stationID");
+                                String localStationID = jsonObject.getString("localStationID");
+                                String x = jsonObject.getString("x");
+                                String y = jsonObject.getString("y");
+
+                                stations.add(new Station(stationName, stationID, localStationID, x, y));
+                            }
+
+                            adapter = new StatAdapter(getApplicationContext(), stations);
+                            stationList.setAdapter(adapter);
+                            stationList.setVisibility(View.VISIBLE);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     break;
             }
 
@@ -288,11 +382,11 @@ public class BusActivity extends Activity {
                     voice_btn.setVisibility(View.GONE);
 
                     RESAULT_CALL_BACK_STATE = 1;
-                    odsayService.requestBusLaneDetail("12018", onResultCallbackListener);
+
                     break;
                 case "버스정류장 세부정보 조회":
                     inputBus_layout.setVisibility(View.GONE);stationList.setVisibility(View.GONE);
-                    inputStation_layout.setVisibility(View.VISIBLE);
+                    inputStation_layout.setVisibility(View.VISIBLE); laneInfo_layout.setVisibility(View.GONE);
                     voice_btn.setVisibility(View.VISIBLE);
 
                     RESAULT_CALL_BACK_STATE = 2;
@@ -302,7 +396,7 @@ public class BusActivity extends Activity {
                 case "반경내 정류장 검색":
                     //반경 내 정류장 나타내는 View만 활성화
                     inputBus_layout.setVisibility(View.GONE);inputStation_layout.setVisibility(View.GONE);
-                    voice_btn.setVisibility(View.VISIBLE);
+                    voice_btn.setVisibility(View.VISIBLE);laneInfo_layout.setVisibility(View.GONE);
                     RESAULT_CALL_BACK_STATE = 3;
 
                     //정류장 검색 Task

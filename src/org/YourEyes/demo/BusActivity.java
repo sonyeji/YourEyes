@@ -518,10 +518,12 @@ public class BusActivity extends Activity {
         int size = stations.size();
         String speak = "";
         int i = 0;
+        speak = "총 " + size + "개의 정류장이 있습니다.";
+        tts.speak(speak, QUEUE_FLUSH, null);
         while (true) {
             if (tts.isSpeaking() == false) {
                 if(i < size){
-                    speak = stations.get(i).name + " " + stations.get(i).id;
+                    speak = i + "번 " + stations.get(i).name + " " + stations.get(i).id;
                     tts.speak(speak, QUEUE_FLUSH, null);
                     tts.playSilence(1000, QUEUE_ADD, null);
                     i++;

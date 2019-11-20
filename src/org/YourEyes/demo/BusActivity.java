@@ -94,6 +94,7 @@ public class BusActivity extends Activity {
     public String input_voice = "";
     public String search_name = "";
     public int listen_state = 0;
+    public int result_state = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,13 +182,17 @@ public class BusActivity extends Activity {
                             mRecognizer.startListening(i);
                         }
                         if(listen_state == 1){
-                            if(RESAULT_CALL_BACK_STATE == 2){
+                            if(RESAULT_CALL_BACK_STATE == 2){//버스정류장 세부정보 조회에서 음성검색
+                                String speak = search_name + " 글자가 포함된 정류장을 검색합니다.";
+                                tts.speak(speak, QUEUE_FLUSH, null);
                                 stationName = search_name;
 
                                 ReceiveStationTask receiveStationTaskTask = new ReceiveStationTask();
                                 receiveStationTaskTask.execute("");
                             }
                             else if(RESAULT_CALL_BACK_STATE == 3){//반경 내 검색 메뉴에서 음성검색
+                                String speak = search_name + " 정류장에 대한 상세 정보입니다.";
+                                tts.speak(speak, QUEUE_FLUSH, null);
                                 searchInList(stations, search_name, context, cityCode);
                             }
                             listen_state = 0;
@@ -206,6 +211,8 @@ public class BusActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String stationID =  stations.get(position).getLocal_id();
                 String stationName = stations.get(position).getName();
+                String speak = stationName + " " + stations.get(position).getId() +"정류장의 상세 정보입니다.";
+                tts.speak(speak, QUEUE_FLUSH, null);
                 Intent intent = new Intent(getApplicationContext(), RealTimeStationInfo.class);
 
                 intent.putExtra("name", stationName);
@@ -401,7 +408,7 @@ public class BusActivity extends Activity {
             return "";
         }
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(final String result) {
             Log.d("postexe1", result);
             try {
                 //파싱
@@ -431,6 +438,7 @@ public class BusActivity extends Activity {
                     //버스 정류장 ListView 어댑터
                     adapter = new StatAdapter(getApplicationContext(), stations);
                     stationList.setAdapter(adapter);
+                    result_state = 2;
                 }
 
                 else if(RESAULT_CALL_BACK_STATE == 3) {
@@ -454,13 +462,14 @@ public class BusActivity extends Activity {
                     }
                     adapter = new StatAdapter(getApplicationContext(), stations);
                     stationList.setAdapter(adapter);
+                    result_state = 3;
                 }
 
                 stationList.setVisibility(View.VISIBLE);
                 Thread speech = new Thread() {
                     public void run() {
                         try {
-                            ListSpeaking(stations, tts);
+                            ListSpeaking(stations, tts, result_state);
                         }catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -505,7 +514,7 @@ public class BusActivity extends Activity {
         }
     }
 
-    private static void ListSpeaking(ArrayList<Station> stations, TextToSpeech tts){
+    private static void ListSpeaking(ArrayList<Station> stations, TextToSpeech tts, int state){
         int size = stations.size();
         String speak = "";
         int i = 0;
@@ -517,8 +526,13 @@ public class BusActivity extends Activity {
                     tts.playSilence(1000, QUEUE_ADD, null);
                     i++;
                 }else{
-                    speak = "정류장별 상세 정보 검색은 리스트에서 정류장을 선택하거나 하단의 음성 검색 버튼을 이용하시기 바랍니다.";
-                    tts.speak(speak, QUEUE_FLUSH, null);
+                    if(state == 2){
+                        speak = "정류장별 상세 정보 검색은 리스트에서 정류장을 선택하세요.";
+                        tts.speak(speak, QUEUE_FLUSH, null);
+                    }else if(state == 3){
+                        speak = "정류장별 상세 정보 검색은 리스트에서 정류장을 선택하거나 하단의 음성 검색 버튼을 이용하세요.";
+                        tts.speak(speak, QUEUE_FLUSH, null);
+                    }
                     break;
                 }
             }else{

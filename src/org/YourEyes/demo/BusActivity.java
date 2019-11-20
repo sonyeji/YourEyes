@@ -172,8 +172,6 @@ public class BusActivity extends Activity {
                         Toast.makeText(getBaseContext(), "지원하지 않는 언어입니다.", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        String speak = "버스 안내 메뉴 입니다.";
-                        tts.speak(speak, TextToSpeech.QUEUE_FLUSH, null);
                     }
                 }else {
 
@@ -617,7 +615,7 @@ public class BusActivity extends Activity {
         while (true) {
             if (tts.isSpeaking() == false) {
                 if(i < size){
-                    speak = i + "번 " + stations.get(i).name + " " + stations.get(i).id;
+                    speak = (i+1) + "번 " + stations.get(i).name + " " + stations.get(i).id;
                     tts.speak(speak, QUEUE_FLUSH, null);
                     tts.playSilence(1000, QUEUE_ADD, null);
                     i++;

@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:id="@+id/laneInfo_layout"
-            android:visibility="gone">
+            >
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,17 +95,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:id="@+id/direction_btn_layout">
+                android:id="@+id/direction_btn_layout"
+                android:gravity="center">
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="1 방향"
-                    android:id="@+id/direction1_btn"/>
+                    android:id="@+id/direction1_btn"
+                    android:background="@drawable/direction_btn"
+                    android:layout_marginRight="10dp"/>
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="2 방향"
-                    android:id="@+id/direction2_btn"/>
+                    android:id="@+id/direction2_btn"
+                    android:background="@drawable/direction_btn" />
 
             </LinearLayout>
         </LinearLayout>

@@ -63,7 +63,7 @@ import static android.speech.tts.TextToSpeech.QUEUE_FLUSH;
 
 public class BusActivity extends Activity {
     private Spinner sp_api;
-    private Button bt_api_call;
+   // private Button bt_api_call;
     private EditText inputBus;
     private EditText inputStation;
     private TextView laneInfo;
@@ -125,7 +125,7 @@ public class BusActivity extends Activity {
     private void init() {
         context = this;
         sp_api = (Spinner) findViewById(R.id.sp_api);
-        bt_api_call = (Button) findViewById(R.id.bt_api_call);
+      //  bt_api_call = (Button) findViewById(R.id.bt_api_call);
         laneInfo = (TextView)findViewById(R.id.laneInfo);
         stationList = (ListView)findViewById(R.id.stationList);
         inputBus = (EditText)findViewById(R.id.inputBus);
@@ -148,7 +148,6 @@ public class BusActivity extends Activity {
         odsayService.setReadTimeout(5000);
         odsayService.setConnectionTimeout(5000);
 
-        bt_api_call.setOnClickListener(onClickListener);
         sp_api.setOnItemSelectedListener(onItemSelectedListener);
         voice_btn = findViewById(R.id.voice_btn);
 
@@ -288,6 +287,46 @@ public class BusActivity extends Activity {
         public void onItemSelected(AdapterView<?> parent, View view,
                                    int position, long id) {
             spinnerSelectedName = (String) parent.getItemAtPosition(position);
+
+            String s_lon = Double.toString(longitude);
+            String s_lat = Double.toString(latitude);
+            String my_loc = s_lon + ":" + s_lat;
+
+            //station List 초기화 ( 반응이 느려서 자꾸 전에 리스트 값이 약간 보임 )
+            stations = new ArrayList<>();
+            adapter = new StatAdapter(getApplicationContext(), stations);
+            stationList.setAdapter(adapter);
+
+            switch (spinnerSelectedName) {
+                case "버스노선 상세정보 조회":
+                    inputStation_layout.setVisibility(View.GONE);stationList.setVisibility(View.GONE);
+                    inputBus_layout.setVisibility(View.VISIBLE);
+                    voice_btn.setVisibility(View.GONE);
+
+                    RESAULT_CALL_BACK_STATE = 1;
+
+                    break;
+                case "버스정류장 세부정보 조회":
+                    inputBus_layout.setVisibility(View.GONE);stationList.setVisibility(View.GONE);
+                    inputStation_layout.setVisibility(View.VISIBLE); laneInfo_layout.setVisibility(View.GONE);
+                    voice_btn.setVisibility(View.VISIBLE);
+
+                    RESAULT_CALL_BACK_STATE = 2;
+
+                    break;
+
+                case "반경내 정류장 검색":
+                    //반경 내 정류장 나타내는 View만 활성화
+                    inputBus_layout.setVisibility(View.GONE);inputStation_layout.setVisibility(View.GONE);
+                    voice_btn.setVisibility(View.VISIBLE);laneInfo_layout.setVisibility(View.GONE);
+                    RESAULT_CALL_BACK_STATE = 3;
+
+                    //정류장 검색 Task
+                    ReceiveStationTask receiveStationTaskTask = new ReceiveStationTask();
+                    receiveStationTaskTask.execute("");
+
+                    break;
+            }
         }
 
         @Override
@@ -375,7 +414,7 @@ public class BusActivity extends Activity {
         }
     };
 
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
+  /*  private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             String s_lon = Double.toString(longitude);
@@ -418,7 +457,7 @@ public class BusActivity extends Activity {
                     break;
             }
         }
-    };
+    };*/
 
     //처음 gps
     public void Init_GPS() {

@@ -29,14 +29,6 @@
                 android:background="#FFDFDF"
                 android:entries="@array/api"
                 android:popupBackground="#FFDFDF" />
-
-            <Button
-                android:id="@+id/bt_api_call"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#FFC2C2"
-                android:text="검색" />
         </LinearLayout>
 
         <LinearLayout

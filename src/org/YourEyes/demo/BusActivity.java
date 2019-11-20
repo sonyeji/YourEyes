@@ -165,7 +165,7 @@ public class BusActivity extends Activity {
             }
         });
 
-        //음성인식 코드
+        //음성 검색 코드
         voice_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,25 +181,14 @@ public class BusActivity extends Activity {
                             mRecognizer.startListening(i);
                         }
                         if(listen_state == 1){
-                            if(RESAULT_CALL_BACK_STATE == 3){
-                                int index = -1;
-                                for(int i = 0; i < stations.size(); i++){
-                                    if(search_name.equals(stations.get(i).name)){
-                                        index = i;
-                                        break;
-                                    }
-                                }
-                                if(index != -1){
-                                    String stationID = stations.get(index).getLocal_id();
-                                    String stationName = stations.get(index).getName();
+                            if(RESAULT_CALL_BACK_STATE == 2){
+                                stationName = search_name;
 
-                                    Intent intent = new Intent(getApplicationContext(), RealTimeStationInfo.class);
-
-                                    intent.putExtra("name", stationName);
-                                    intent.putExtra("id", stationID);
-                                    intent.putExtra("cityCode", cityCode);
-                                    startActivity(intent);
-                                }
+                                ReceiveStationTask receiveStationTaskTask = new ReceiveStationTask();
+                                receiveStationTaskTask.execute("");
+                            }
+                            else if(RESAULT_CALL_BACK_STATE == 3){//반경 내 검색 메뉴에서 음성검색
+                                searchInList(stations, search_name, context, cityCode);
                             }
                             listen_state = 0;
                         }
@@ -608,5 +597,28 @@ public class BusActivity extends Activity {
             }
         }
     };
+
+    // 반경 내 정류장 검색 메뉴에서 음성 검색 버튼을 눌렀을 때
+    // 정류장 리스트에서 일치하는 정류장 이름을 찾으면 해당 결과의 정보를 나타냄
+    private void searchInList(ArrayList<Station> stations, String search_name, Context context, String cityCode){
+        int index = -1;
+        for(int i = 0; i < stations.size(); i++){
+            if(search_name.equals(stations.get(i).name)){
+                index = i;
+                break;
+            }
+        }
+        if(index != -1){
+            String stationID = stations.get(index).getLocal_id();
+            String stationName = stations.get(index).getName();
+
+            Intent intent = new Intent(context, RealTimeStationInfo.class);
+
+            intent.putExtra("name", stationName);
+            intent.putExtra("id", stationID);
+            intent.putExtra("cityCode", cityCode);
+            startActivity(intent);
+        }
+    }
 
 }

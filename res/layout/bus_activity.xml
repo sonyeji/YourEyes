@@ -9,6 +9,7 @@
     android:background="#ffffff">
 
     <LinearLayout
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="9"
@@ -18,19 +19,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <Spinner
                 android:id="@+id/sp_api"
                 android:layout_width="0px"
+                android:layout_height="40dp"
                 android:layout_weight="4"
+                android:layout_marginRight="5dp"
+                android:background="#FFDFDF"
                 android:entries="@array/api"
-                android:layout_height="wrap_content"/>
+                android:popupBackground="#FFDFDF" />
 
             <Button
                 android:id="@+id/bt_api_call"
                 android:layout_width="0px"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="검색"/>
+                android:background="#FFC2C2"
+                android:text="검색" />
         </LinearLayout>
 
         <LinearLayout
@@ -49,7 +55,8 @@
                 android:id="@+id/inputBus_ok"
                 android:layout_width="0px"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:background="#FFBABA"
                 android:text="검색"/>
         </LinearLayout>
 
@@ -69,7 +76,8 @@
                 android:id="@+id/inputStation_ok"
                 android:layout_width="0px"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:background="#FFBABA"
                 android:text="검색"/>
 
         </LinearLayout>

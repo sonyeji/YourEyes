@@ -18,16 +18,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginBottom="10dp">
 
             <Spinner
                 android:id="@+id/sp_api"
-                android:layout_width="0px"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_weight="4"
                 android:layout_marginRight="5dp"
                 android:background="#FFDFDF"
                 android:entries="@array/api"
+                android:paddingLeft="20dp"
                 android:popupBackground="#FFDFDF" />
         </LinearLayout>
 
@@ -40,14 +40,14 @@
             <EditText
                 android:layout_width="0px"
                 android:layout_weight="4"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/inputBus" />
 
             <Button
                 android:id="@+id/inputBus_ok"
                 android:layout_width="0px"
                 android:layout_weight="1"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:background="#FFBABA"
                 android:text="검색"/>
         </LinearLayout>
@@ -63,12 +63,12 @@
                 android:id="@+id/inputStation"
                 android:layout_width="0px"
                 android:layout_weight="4"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
             <Button
                 android:id="@+id/inputStation_ok"
                 android:layout_width="0px"
                 android:layout_weight="1"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:background="#FFBABA"
                 android:text="검색"/>
 

@@ -198,6 +198,17 @@ public class BusActivity extends Activity {
                             mRecognizer.startListening(i);
                         }
                         if(listen_state == 1){
+                            if(RESAULT_CALL_BACK_STATE == 1){
+                                String speak = search_name + "번 버스 검색 결과입니다.";
+                                tts.speak(speak, QUEUE_FLUSH, null);
+                                stations = new ArrayList<>();
+                                adapter = new StatAdapter(getApplicationContext(), stations);
+                                stationList.setAdapter(adapter);
+
+                                String bus = search_name;
+                                RESAULT_CALL_BACK_STATE = 1;
+                                odsayService.requestSearchBusLane(bus, "3000", "no", "1", null, onResultCallbackListener);
+                            }
                             if(RESAULT_CALL_BACK_STATE == 2){//버스정류장 세부정보 조회에서 음성검색
                                 String speak = search_name + " 글자가 포함된 정류장을 검색합니다.";
                                 tts.speak(speak, QUEUE_FLUSH, null);
@@ -301,7 +312,6 @@ public class BusActivity extends Activity {
                 case "버스노선 상세정보 조회":
                     inputStation_layout.setVisibility(View.GONE);stationList.setVisibility(View.GONE);
                     inputBus_layout.setVisibility(View.VISIBLE);
-                    voice_btn.setVisibility(View.GONE);
 
                     RESAULT_CALL_BACK_STATE = 1;
 
@@ -309,7 +319,6 @@ public class BusActivity extends Activity {
                 case "버스정류장 세부정보 조회":
                     inputBus_layout.setVisibility(View.GONE);stationList.setVisibility(View.GONE);
                     inputStation_layout.setVisibility(View.VISIBLE); laneInfo_layout.setVisibility(View.GONE);
-                    voice_btn.setVisibility(View.VISIBLE);
 
                     RESAULT_CALL_BACK_STATE = 2;
 
@@ -318,7 +327,7 @@ public class BusActivity extends Activity {
                 case "반경내 정류장 검색":
                     //반경 내 정류장 나타내는 View만 활성화
                     inputBus_layout.setVisibility(View.GONE);inputStation_layout.setVisibility(View.GONE);
-                    voice_btn.setVisibility(View.VISIBLE);laneInfo_layout.setVisibility(View.GONE);
+                    laneInfo_layout.setVisibility(View.GONE);
                     RESAULT_CALL_BACK_STATE = 3;
 
                     //정류장 검색 Task
@@ -413,51 +422,6 @@ public class BusActivity extends Activity {
             //tv_data.setText("API : " + api.name() + "\n" + errorMessage);
         }
     };
-
-  /*  private View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String s_lon = Double.toString(longitude);
-            String s_lat = Double.toString(latitude);
-            String my_loc = s_lon + ":" + s_lat;
-
-            //station List 초기화 ( 반응이 느려서 자꾸 전에 리스트 값이 약간 보임 )
-            stations = new ArrayList<>();
-            adapter = new StatAdapter(getApplicationContext(), stations);
-            stationList.setAdapter(adapter);
-
-            switch (spinnerSelectedName) {
-                case "버스노선 상세정보 조회":
-                    inputStation_layout.setVisibility(View.GONE);stationList.setVisibility(View.GONE);
-                    inputBus_layout.setVisibility(View.VISIBLE);
-                    voice_btn.setVisibility(View.GONE);
-
-                    RESAULT_CALL_BACK_STATE = 1;
-
-                    break;
-                case "버스정류장 세부정보 조회":
-                    inputBus_layout.setVisibility(View.GONE);stationList.setVisibility(View.GONE);
-                    inputStation_layout.setVisibility(View.VISIBLE); laneInfo_layout.setVisibility(View.GONE);
-                    voice_btn.setVisibility(View.VISIBLE);
-
-                    RESAULT_CALL_BACK_STATE = 2;
-
-                    break;
-
-                case "반경내 정류장 검색":
-                    //반경 내 정류장 나타내는 View만 활성화
-                    inputBus_layout.setVisibility(View.GONE);inputStation_layout.setVisibility(View.GONE);
-                    voice_btn.setVisibility(View.VISIBLE);laneInfo_layout.setVisibility(View.GONE);
-                    RESAULT_CALL_BACK_STATE = 3;
-
-                    //정류장 검색 Task
-                    ReceiveStationTask receiveStationTaskTask = new ReceiveStationTask();
-                    receiveStationTaskTask.execute("");
-
-                    break;
-            }
-        }
-    };*/
 
     //처음 gps
     public void Init_GPS() {

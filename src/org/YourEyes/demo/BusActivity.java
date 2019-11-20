@@ -176,8 +176,10 @@ public class BusActivity extends Activity {
                 } else {
                     //권한을 허용한 경우
                     try {
-                        mRecognizer.startListening(i);
 
+                        if(listen_state == 0) {
+                            mRecognizer.startListening(i);
+                        }
                         if(listen_state == 1){
                             if(RESAULT_CALL_BACK_STATE == 3){
                                 int index = -1;
@@ -199,6 +201,7 @@ public class BusActivity extends Activity {
                                     startActivity(intent);
                                 }
                             }
+                            listen_state = 0;
                         }
                     } catch(SecurityException e) {
                         e.printStackTrace();
@@ -525,7 +528,7 @@ public class BusActivity extends Activity {
                     tts.playSilence(1000, QUEUE_ADD, null);
                     i++;
                 }else{
-                    speak = "정류장 상세 정보를 검색하고 싶으시면 리스트에서 정류장을 선택하시거나 하단의 음성 검색 버튼을 누른 뒤 삐 소리가 난 후 정류장 이름을 말씀해주시기 바랍니다.";
+                    speak = "정류장별 상세 정보 검색은 리스트에서 정류장을 선택하거나 하단의 음성 검색 버튼을 이용하시기 바랍니다.";
                     tts.speak(speak, QUEUE_FLUSH, null);
                     break;
                 }

@@ -357,6 +357,10 @@ public class BusActivity extends Activity {
                             stationList.setAdapter(adapter);
                             stationList.setVisibility(View.VISIBLE);
                         }
+                        String start = stations.get(0).name;
+                        String end = stations.get(stations.size()-1).name;
+                        String speak = start + "에서 " + end + "로 가는 방향입니다.";
+                        tts.speak(speak, QUEUE_FLUSH, null);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

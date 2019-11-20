@@ -1,13 +1,16 @@
 package org.YourEyes.demo;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +28,7 @@ import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -33,6 +37,10 @@ import com.odsay.odsayandroidsdk.API;
 import com.odsay.odsayandroidsdk.ODsayData;
 import com.odsay.odsayandroidsdk.ODsayService;
 import com.odsay.odsayandroidsdk.OnResultCallbackListener;
+
+import static android.speech.tts.TextToSpeech.ERROR;
+import static android.speech.tts.TextToSpeech.QUEUE_ADD;
+import static android.speech.tts.TextToSpeech.QUEUE_FLUSH;
 
 public class RealTimeStationInfo extends Activity {
     private ArrayList<busArr> busArrArrayList;
@@ -45,9 +53,14 @@ public class RealTimeStationInfo extends Activity {
 
     private ListView buslist;
 
+    private TextToSpeech tts;
+    public Context mContext;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = getBaseContext();
 
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.realtimestationinfo);
@@ -67,6 +80,33 @@ public class RealTimeStationInfo extends Activity {
        // getStationId(stationId);
         ReceiveBusTask receiveBusTask = new ReceiveBusTask();
         receiveBusTask.execute("");
+
+
+        tts = new TextToSpeech(mContext, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != ERROR) {
+                    int language = tts.setLanguage(Locale.KOREAN);
+                    if (language == TextToSpeech.LANG_MISSING_DATA
+
+                            || language == TextToSpeech.LANG_NOT_SUPPORTED) {
+
+                        // 언어 데이터가 없거나, 지원하지 않는경우
+
+                        Toast.makeText(mContext, "지원하지 않는 언어입니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+
+                    }
+                }else {
+
+                    // 작업 실패
+
+                    Toast.makeText(mContext, "TTS 작업에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
 
     }
 
@@ -157,6 +197,16 @@ public class RealTimeStationInfo extends Activity {
                 adapter = new BusAdapter(getApplicationContext(), busArrArrayList);
                 buslist.setAdapter(adapter);
 
+                Thread speech = new Thread() {
+                    public void run() {
+                        try {
+                            ListSpeaking(busArrArrayList, tts);
+                        }catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                speech.start();
                 //textView.setText(buffer.toString());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -210,5 +260,35 @@ public class RealTimeStationInfo extends Activity {
         public String toString() {
             return this.routeno+"번 "+this.arrtime+"분 후 도착"+" "+prestationcnt+"정거장 전";
         }
+    }
+
+    public static void ListSpeaking(ArrayList<busArr> list, TextToSpeech tts){
+        int size = list.size();
+        String speak = "";
+        int i = 0;
+        speak = "총 " + size + "개의 버스 정보가 있습니다.";
+        tts.speak(speak, QUEUE_FLUSH, null);
+        while (true) {
+            if (tts.isSpeaking() == false) {
+                if(i < size){
+                    speak = list.get(i).getRouteno() + "번" + list.get(i).getArrtime() + "분 후 도착예정";
+                    tts.speak(speak, QUEUE_FLUSH, null);
+                    tts.playSilence(1000, QUEUE_ADD, null);
+                    i++;
+                }else{
+                    break;
+                }
+            }else{
+                continue;
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (tts.isSpeaking() == true){
+            tts.shutdown();
+        }
+        super.onBackPressed();
     }
 }

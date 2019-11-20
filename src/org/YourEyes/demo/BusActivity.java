@@ -242,7 +242,13 @@ public class BusActivity extends Activity {
         inputBus_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //station List 초기화
+                stations = new ArrayList<>();
+                adapter = new StatAdapter(getApplicationContext(), stations);
+                stationList.setAdapter(adapter);
+
                 String bus = inputBus.getText().toString();
+                RESAULT_CALL_BACK_STATE = 1;
                 odsayService.requestSearchBusLane(bus, "3000", "no", "1", null, onResultCallbackListener);
             }
         });

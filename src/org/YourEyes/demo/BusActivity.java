@@ -629,8 +629,22 @@ public class BusActivity extends Activity {
         int size = stations.size();
         String speak = "";
         int i = 0;
-        speak = "총 " + size + "개의 정류장이 있습니다.";
+        speak = "총 " + size + "개의 정류장이 있습니다.\n";
         tts.speak(speak, QUEUE_FLUSH, null);
+
+        for(int j = 0; j < size; j++){
+            speak += (j+1) + "번 " + stations.get(j).name + " " + stations.get(j).id + "\n";
+        }
+
+        if(state == 2){
+            speak += "정류장별 상세 정보 검색은 리스트에서 정류장을 선택하세요.";
+            tts.speak(speak, QUEUE_FLUSH, null);
+        }else if(state == 3){
+            speak += "정류장별 상세 정보 검색은 리스트에서 정류장을 선택하거나 하단의 음성 검색 버튼을 이용하세요.";
+            tts.speak(speak, QUEUE_FLUSH, null);
+        }
+
+        /*
         while (true) {
             if (tts.isSpeaking() == false) {
                 if(i < size){
@@ -652,6 +666,7 @@ public class BusActivity extends Activity {
                 continue;
             }
         }
+        */
     }
 
     //음성인식 listener

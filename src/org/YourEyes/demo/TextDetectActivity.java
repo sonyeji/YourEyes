@@ -146,6 +146,9 @@ public class TextDetectActivity extends Activity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        if (tts.isSpeaking() == true){
+            tts.shutdown();
+        }
         switch (v.getId()) {
             // 카메라를 찍기위해 카메라 앱을 연다
             case R.id.btn_OCR:

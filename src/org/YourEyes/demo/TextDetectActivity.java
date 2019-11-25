@@ -376,4 +376,11 @@ public class TextDetectActivity extends Activity implements View.OnClickListener
         ocrThread.start();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (tts.isSpeaking() == true){
+            tts.shutdown();
+        }
+        super.onBackPressed();
+    }
 }

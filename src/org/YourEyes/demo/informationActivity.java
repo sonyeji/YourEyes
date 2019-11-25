@@ -110,6 +110,8 @@ public class informationActivity extends Activity{
             }
         });
 
+
+
     }
 
     private RecognitionListener listener = new RecognitionListener() {
@@ -170,4 +172,12 @@ public class informationActivity extends Activity{
             tts.speak("다시 한번 화면을 터치해주세요.", QUEUE_FLUSH, null);
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        if (tts.isSpeaking() == true){
+            tts.shutdown();
+        }
+        super.onBackPressed();
+    }
 }

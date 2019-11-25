@@ -8,6 +8,7 @@ import android.speech.tts.TextToSpeech;
 import android.view.View;
 //import android.view.WindowManager;
 //import android.widget.Button;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -19,10 +20,10 @@ import static android.speech.tts.TextToSpeech.ERROR;
 import static android.speech.tts.TextToSpeech.QUEUE_FLUSH;
 
 public class MenuActivity extends Activity {
-    private ImageButton detect_btn;
-    private ImageButton text_btn;
-    private ImageButton bus_btn;
-    private ImageButton information_btn;
+    private Button detect_btn;
+    private Button text_btn;
+    private Button bus_btn;
+    private Button information_btn;
 
     private TextToSpeech tts;
     private Context context;
@@ -31,10 +32,10 @@ public class MenuActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_activity);
 
-        detect_btn = (ImageButton)findViewById(R.id.detect_btn);
-        text_btn = (ImageButton)findViewById(R.id.text_btn);
-        bus_btn = (ImageButton)findViewById(R.id.bus_btn);
-        information_btn = (ImageButton)findViewById(R.id.information_btn);
+        detect_btn = (Button)findViewById(R.id.detect_btn);
+        text_btn = (Button)findViewById(R.id.text_btn);
+        bus_btn = (Button)findViewById(R.id.bus_btn);
+        information_btn = (Button)findViewById(R.id.information_btn);
 
         context = getBaseContext();
 

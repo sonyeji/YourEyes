@@ -80,7 +80,7 @@ public class informationActivity extends Activity{
             public void onClick(View v) {
                 System.out.println("-------------------------------------- 음성인식 시작!");
                 if (tts.isSpeaking() == true){
-                    tts.shutdown();
+                    tts.stop();
                 }
                 if (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(informationActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_RECORD_AUDIO);

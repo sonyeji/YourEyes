@@ -187,6 +187,9 @@ public class BusActivity extends Activity {
             @Override
             public void onClick(View view) {
                 System.out.println("-------------------------------------- 음성인식 시작!");
+                if (tts.isSpeaking() == true){
+                    tts.stop();
+                }
                 if (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(BusActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_RECORD_AUDIO);
                     //권한을 허용하지 않는 경우

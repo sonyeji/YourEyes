@@ -266,8 +266,14 @@ public class RealTimeStationInfo extends Activity {
         int size = list.size();
         String speak = "";
         int i = 0;
-        speak = "총 " + size + "개의 버스 정보가 있습니다.";
+        speak = "총 " + size + "개의 버스 정보가 있습니다.\n";
         tts.speak(speak, QUEUE_FLUSH, null);
+
+        for(int j = 0; j < size; j++){
+            speak += list.get(j).getRouteno() + "번" + list.get(j).getArrtime() + "분 후 도착예정\n";
+        }
+        tts.speak(speak, QUEUE_FLUSH, null);
+        /*
         while (true) {
             if (tts.isSpeaking() == false) {
                 if(i < size){
@@ -282,6 +288,7 @@ public class RealTimeStationInfo extends Activity {
                 continue;
             }
         }
+        */
     }
 
     @Override

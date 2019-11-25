@@ -407,6 +407,8 @@ public class BusActivity extends Activity {
                             adapter = new StatAdapter(getApplicationContext(), stations);
                             stationList.setAdapter(adapter);
                             stationList.setVisibility(View.VISIBLE);
+
+                            RESAULT_CALL_BACK_STATE = 1;
                         }
                         String start = stations.get(0).name;
                         String end = stations.get(stations.size()-1).name;
